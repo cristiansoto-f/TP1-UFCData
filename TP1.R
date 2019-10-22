@@ -8,4 +8,4 @@ str(UFCData) #Muestra las distintas variables
 
 #2. Dividir el dataset original en dos datasets distintos, uno con toda la información referente al participante
 # de la esquina roja y la información en común del encuentro y otro con la información referente al
-# participante de la esquina azul y la información en común del encuentro.
+# participante de la esquina azul y la información en común del encuentro. 
