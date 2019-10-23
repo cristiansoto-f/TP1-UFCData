@@ -10,7 +10,7 @@ UFCData = fread(file.choose(), fill = T, header = T, sep = ",")
 # participante de la esquina azul y la informacion en común del encuentro.
 
 #Extraigo informacion del peleador rojo
-esRedFighter = UFCData[,!grepl( "^B_" , names(UFCData))] #el ^ ayuda a seleccionar solo las columnas que EMPIEZAN con R_
+esRedFighter = UFCData[,!grepl( "^B_" , names(UFCData))] #el ^ ayuda a seleccionar solo las columnas que NO EMPIEZAN con B_
 
 #Extraigo informacion del peleador azul
 esBlueFighter = UFCData[,!grepl( "^R_" , names(UFCData))]
