@@ -40,11 +40,11 @@ colnames(redFighter)<-str_remove_all(colnames(redFighter),"R_")
 # no (0). Por ejemplo si se está trabajando con los datos del participante de la esquina azul y la variable
 # Winner toma el valor de Red, entonces la nueva variable tendria que tomar el valor 0.
 
-winner <- vector()
-for(i in 1:nrow(dataUFC)){
-  
-  winner[i]<-(dataUFC[i,"Winner"] == "Red")
-  
+for(i in 1:nrow(redFighter)){
+  redFighter[i,"Winner"] <- (dataUFC[i,"Winner"] == "Red")
+  blueFighter[i,"Winner"] <- (dataUFC[i,"Winner"] == "Blue")
 }
 
 # c) Crear una variable que haga referencia al color de la esquina de cada dataset.
+
+
