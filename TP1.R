@@ -6,6 +6,17 @@ UFCData = fread(file.choose(), fill = T, header = T, sep = ",")
 UFCData[1:3]
 str(UFCData) #Muestra las distintas variables
 
-#2. Dividir el dataset original en dos datasets distintos, uno con toda la informaci髇 referente al participante
-# de la esquina roja y la informaci髇 en com鷑 del encuentro y otro con la informaci髇 referente al
-# participante de la esquina azul y la informaci髇 en com鷑 del encuentro. 
+#2. Dividir el dataset original en dos datasets distintos, uno con toda la informaci贸n referente al participante
+# de la esquina roja y la informaci贸n en com煤n del encuentro y otro con la informaci贸n referente al
+# participante de la esquina azul y la informaci贸n en com煤n del encuentro. 
+#Para ejecutar la funci贸n grepl es necesario pausar el paquete data.table
+#Extraigo informacion del peleador rojo
+RedFighter = UFCData[,grepl( "^R_" , names(UFCData))] #el ^ ayuda a seleccionar solo las columnas que EMPIEZAN con R_
+#Extraigo informacion del peleador azul
+BlueFighter = UFCData[,grepl( "^B_" , names(UFCData))]
+#Extraigo informacion en comun excluyendo mendiante !grepl 
+CommonData = UFCData[,!grepl( "^B_" , names(UFCData)) & !grepl( "^R_" , names(UFCData))]
+
+#A continuaci贸n uno los data table
+RF  = cbind(RedFighter, CommonData)
+BF  = cbind(BlueFighter, CommonData)
