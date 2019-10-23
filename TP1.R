@@ -57,6 +57,11 @@ blueFighter <- cbind(color, blueFighter)
 rm(color)
 
 #4. Unir las ﬁlas de ambos datasets en uno solo.
+dataUFC.2= rbind(blueFighter, redFighter) #Por alguna razón crea columnas de mas
 
+#5. Reordenar las columnas del dataset obtenido en el punto anterior de forma tal que la primer columna
+# sea la que se calculó en el ítem 3.b (la cual indica si el participante ganó o no la pelea), manteniendo el
+# orden de las demás
+dataUFC.3 = setcolorder(dataUFC.2, "Winner")
 
 
