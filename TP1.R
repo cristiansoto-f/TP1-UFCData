@@ -46,6 +46,13 @@ for(i in 1:nrow(redFighter)){
 }
 
 # c) Crear una variable que haga referencia al color de la esquina de cada dataset.
+color <- vector(mode = "character", nrow(redFighter))
+
+for (i in 1:length(color)) {color[i]<-"Red"}
+redFighter <- cbind(color, redFighter)
+
+for (i in 1:length(color)) {color[i]<-"Blue"}
+blueFighter <- cbind(color, blueFighter)
 
 #4. Unir las ???las de ambos datasets en uno solo.
 
