@@ -1,4 +1,5 @@
-install.packages("data.table")
+#install.packages("data.table")
+#install.packages("stringr")
 library(data.table)
 library(stringr)
 
@@ -10,19 +11,19 @@ dataUFC = fread(file.choose(), fill = T, header = T, sep = ",")
 # participante de la esquina azul y la informacion en com√∫n del encuentro.
 
 # Extraigo informacion del peleador rojo y comun
-esRedFighter = dataUFC[,!grepl( "^B_" , names(dataUFC))] #el ^ ayuda a seleccionar solo las columnas que NO EMPIEZAN con B_
+isRedFighter = dataUFC[,!grepl( "^B_" , names(dataUFC))] #el ^ ayuda a seleccionar solo las columnas que NO EMPIEZAN con B_
 
 # Extraigo informacion del peleador azul y comun
-esBlueFighter = dataUFC[,!grepl( "^R_" , names(dataUFC))]
+isBlueFighter = dataUFC[,!grepl( "^R_" , names(dataUFC))]
 
 redFighter <- data.table()
 blueFighter <- data.table()
 
 for (i in 1:ncol(dataUFC)){
-  if (esRedFighter[i]){
+  if (isRedFighter[i]){
    redFighter <- cbind(redFighter, dataUFC[,..i])
   }
-  if (esBlueFighter[i]) {
+  if (isBlueFighter[i]) {
     blueFighter <- cbind(blueFighter, dataUFC[,..i])
   }
 }
@@ -38,4 +39,12 @@ colnames(redFighter)<-str_remove_all(colnames(redFighter),"R_")
 # b) Crear una variable (o recodear la variable "Winner") que indique si el participante ganÛ la pelea (1) o
 # no (0). Por ejemplo si se est· trabajando con los datos del participante de la esquina azul y la variable
 # Winner toma el valor de Red, entonces la nueva variable tendria que tomar el valor 0.
+
+winner <- vector()
+for(i in 1:nrow(dataUFC)){
+  
+  winner[i]<-(dataUFC[i,"Winner"] == "Red")
+  
+}
+
 # c) Crear una variable que haga referencia al color de la esquina de cada dataset.
