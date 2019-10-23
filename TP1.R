@@ -1,5 +1,6 @@
 install.packages("data.table")
 library(data.table)
+library(stringr)
 
 # 1. Importar el dataset, guardarlo en un objeto bidimensional (puede ser un data.frame, data.table, tibble, etc.)
 dataUFC = fread(file.choose(), fill = T, header = T, sep = ",")
@@ -30,6 +31,10 @@ for (i in 1:ncol(dataUFC)){
 # a) Reemplazar el pre???jo que indica el color de la esquina en los nombres de las columnas (R_ o B_) por
 # un " (un campo vacío). Por ejemplo, el nombre de la columna "R_???ghter" tiene que pasar a llamarse
 # "???ghter". Ambos datasets tendrian que tener nombres de columnas identicos al ???nalizar.
+
+colnames(blueFighter)<-str_remove_all(colnames(blueFighter),"B_")
+colnames(redFighter)<-str_remove_all(colnames(redFighter),"R_")
+
 # b) Crear una variable (o recodear la variable "Winner") que indique si el participante ganó la pelea (1) o
 # no (0). Por ejemplo si se está trabajando con los datos del participante de la esquina azul y la variable
 # Winner toma el valor de Red, entonces la nueva variable tendria que tomar el valor 0.
