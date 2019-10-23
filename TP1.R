@@ -47,4 +47,7 @@ for(i in 1:nrow(redFighter)){
 
 # c) Crear una variable que haga referencia al color de la esquina de cada dataset.
 
+#4. Unir las ???las de ambos datasets en uno solo.
+
+
 
