@@ -33,8 +33,8 @@ for (i in 1:ncol(dataUFC)){
 # un ” (un campo vacío). Por ejemplo, el nombre de la columna “R_ﬁghter” tiene que pasar a llamarse
 # “ﬁghter”. Ambos datasets tendrian que tener nombres de columnas identicos al ﬁnalizar.
 
-colnames(blueFighter)<-str_remove_all(colnames(blueFighter),"B_")
-colnames(redFighter)<-str_remove_all(colnames(redFighter),"R_")
+colnames(blueFighter)<-str_remove_all(colnames(blueFighter),"^B_")
+colnames(redFighter)<-str_remove_all(colnames(redFighter),"^R_")
 
 # b) Crear una variable (o recodear la variable “Winner”) que indique si el participante ganó la pelea (1) o
 # no (0). Por ejemplo si se está trabajando con los datos del participante de la esquina azul y la variable
@@ -57,27 +57,27 @@ blueFighter <- cbind(color, blueFighter)
 rm(color)
 
 #4. Unir las ﬁlas de ambos datasets en uno solo.
-dataUFC.2= rbind(blueFighter, redFighter) #Por alguna razón crea columnas de mas
+dataUFCFinal<- rbind(blueFighter, redFighter) 
 
 #5. Reordenar las columnas del dataset obtenido en el punto anterior de forma tal que la primer columna
 # sea la que se calculó en el ítem 3.b (la cual indica si el participante ganó o no la pelea), manteniendo el
 # orden de las demás
-dataUFC.3 = setcolorder(dataUFC.2, "Winner")
+dataUFCFinal <- setcolorder(dataUFCFinal, "Winner")
 
 
 #6.
 #No todas las variables son continuas y faltan datos para calcular
-for(i in 1:ncol(dataUFC.3)){
-  if(is.numeric(dataUFC.3[[i]]))
+for(i in 1:ncol(dataUFCFinal)){
+  if(is.numeric(dataUFCFinal[[i]]))
   {
     print("------------------------°--------------------------------")
-    print(sprintf("Variable: %s", colnames(dataUFC.3)[i]))
-    print(sprintf("Media: %f", mean(dataUFC.3[[i]], na.rm = T)))
-    print(sprintf("Mediana: %f", median(dataUFC.3[[i]], na.rm = T)))
-    print(sprintf("MAD: %f", mad(dataUFC.3[[i]], na.rm = T)))
-    print(sprintf("Varianza: %f", var(dataUFC.3[[i]], na.rm = T)))
-    print(sprintf("Desviación estándar: %f", sd(dataUFC.3[[i]], na.rm = T)))
-    #print(colnames(dataUFC.3[[i]]))
+    print(sprintf("Variable: %s", colnames(dataUFCFinal)[i]))
+    print(sprintf("Media: %f", mean(dataUFCFinal[[i]], na.rm = T)))
+    print(sprintf("Mediana: %f", median(dataUFCFinal[[i]], na.rm = T)))
+    print(sprintf("MAD: %f", mad(dataUFCFinal[[i]], na.rm = T)))
+    print(sprintf("Varianza: %f", var(dataUFCFinal[[i]], na.rm = T)))
+    print(sprintf("Desviación estándar: %f", sd(dataUFCFinal[[i]], na.rm = T)))
+    #print(colnames(dataUFCFinal[[i]]))
     print("------------------------°--------------------------------")
   }
 }
