@@ -65,3 +65,19 @@ dataUFC.2= rbind(blueFighter, redFighter) #Por alguna razón crea columnas de ma
 dataUFC.3 = setcolorder(dataUFC.2, "Winner")
 
 
+#6.
+#No todas las variables son continuas y faltan datos para calcular
+for(i in 1:ncol(dataUFC.3)){
+  if(is.numeric(dataUFC.3[[i]]))
+  {
+    print("------------------------°--------------------------------")
+    print(sprintf("Variable: %s", colnames(dataUFC.3)[i]))
+    print(sprintf("Media: %f", mean(dataUFC.3[[i]], na.rm = T)))
+    print(sprintf("Mediana: %f", median(dataUFC.3[[i]], na.rm = T)))
+    print(sprintf("MAD: %f", mad(dataUFC.3[[i]], na.rm = T)))
+    print(sprintf("Varianza: %f", var(dataUFC.3[[i]], na.rm = T)))
+    print(sprintf("Desviación estándar: %f", sd(dataUFC.3[[i]], na.rm = T)))
+    #print(colnames(dataUFC.3[[i]]))
+    print("------------------------°--------------------------------")
+  }
+}
