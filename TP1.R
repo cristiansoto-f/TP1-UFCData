@@ -65,8 +65,8 @@ dataUFCFinal<- rbind(blueFighter, redFighter)
 dataUFCFinal <- setcolorder(dataUFCFinal, "Winner")
 
 
-#6.
-#No todas las variables son continuas y faltan datos para calcular
+# 6. Obtener estadísticas descriptivas básicas para todas las variables continuas: media, desvío, varianza,
+# número de observaciones, máximo y mínimo, cuartiles, etc.
 for(i in 1:ncol(dataUFCFinal)){
   if(is.numeric(dataUFCFinal[[i]]))
   {
@@ -81,3 +81,13 @@ for(i in 1:ncol(dataUFCFinal)){
     print("------------------------Â°--------------------------------")
   }
 }
+
+# 7. Para cada variable numérica gra???car el histograma de la misma a efectos de poder visualizar la
+# distribución de la misma. Utilizar por default 10 intervalos, aunque se puede varíar el número de los
+# mismos si se considerase necesario.
+# 8. Gra???car el número de encuentros por año, para cada una de las categorías de peso (weight_class).
+# 9. Crear una lista de data.frames (u otro tipo de array de datos) donde cada elemento de la lista sea
+# un subset del los datos el cual contenga la info relacionada a cada una de las distintas categorías de
+# peso. Elegir una de las categorías de peso y crear un nuevo dataset el cual solo contenga los datos
+# pertenecientes a dicha categoría. Estos datos van a ser la base a partir de la cual se va a trabajar en los
+# siguientes puntos.
