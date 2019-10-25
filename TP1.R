@@ -67,27 +67,67 @@ dataUFCFinal <- setcolorder(dataUFCFinal, "Winner")
 
 # 6. Obtener estadísticas descriptivas básicas para todas las variables continuas: media, desvío, varianza,
 # número de observaciones, máximo y mínimo, cuartiles, etc.
+statsUFC <- data.frame()
 for(i in 1:ncol(dataUFCFinal)){
-  if(is.numeric(dataUFCFinal[[i]]))
+  if(is.numeric(dataUFCFinal[[i]]) && !is.integer(dataUFCFinal[[i]]))
   {
-    print("------------------------Â°--------------------------------")
+    print("---------------------------------------------------------")
+    
     print(sprintf("Variable: %s", colnames(dataUFCFinal)[i]))
     print(sprintf("Media: %f", mean(dataUFCFinal[[i]], na.rm = T)))
+    statsUFC["media",ncol(statsUFC)+1] <- mean(dataUFCFinal[[i]], na.rm = T)
+    
     print(sprintf("Mediana: %f", median(dataUFCFinal[[i]], na.rm = T)))
     print(sprintf("MAD: %f", mad(dataUFCFinal[[i]], na.rm = T)))
+    
     print(sprintf("Varianza: %f", var(dataUFCFinal[[i]], na.rm = T)))
+    statsUFC["var", ncol(statsUFC)] <- var(dataUFCFinal[[i]], na.rm = T)
+    
     print(sprintf("DesviaciÃ³n estÃ¡ndar: %f", sd(dataUFCFinal[[i]], na.rm = T)))
-    #print(colnames(dataUFCFinal[[i]]))
-    print("------------------------Â°--------------------------------")
+    statsUFC["std dev", ncol(statsUFC)] <- sd(dataUFCFinal[[i]], na.rm=T)
+    
+    quantiles<-quantile(dataUFCFinal[[i]], na.rm = T)
+    statsUFC["min", ncol(statsUFC)] <- quantiles[1]
+    statsUFC["1er Q", ncol(statsUFC)] <- quantiles[2]
+    statsUFC["2do Q", ncol(statsUFC)] <- quantiles[3]
+    statsUFC["3er Q", ncol(statsUFC)] <- quantiles[4]
+    statsUFC["max", ncol(statsUFC)] <- quantiles[5]
+    
+    colnames(statsUFC)[ncol(statsUFC)] <- colnames(dataUFCFinal)[i]
+    print("---------------------------------------------------------")
   }
 }
 
-# 7. Para cada variable numérica gra???car el histograma de la misma a efectos de poder visualizar la
-# distribución de la misma. Utilizar por default 10 intervalos, aunque se puede varíar el número de los
-# mismos si se considerase necesario.
-# 8. Gra???car el número de encuentros por año, para cada una de las categorías de peso (weight_class).
-# 9. Crear una lista de data.frames (u otro tipo de array de datos) donde cada elemento de la lista sea
-# un subset del los datos el cual contenga la info relacionada a cada una de las distintas categorías de
-# peso. Elegir una de las categorías de peso y crear un nuevo dataset el cual solo contenga los datos
-# pertenecientes a dicha categoría. Estos datos van a ser la base a partir de la cual se va a trabajar en los
-# siguientes puntos.
+
+# 7. Para cada variable numérica gra???car el histograma de la misma a efectos de poder visualizar la distribución de la misma. Utilizar 
+# por default 10 intervalos, aunque se puede varíar el número de los mismos si se considerase necesario.
+
+# 8. Graficar el número de encuentros por año, para cada una de las categorías de peso (weight_class).
+
+# 9. Crear una lista de data.frames (u otro tipo de array de datos) donde cada elemento de la lista sea un subset de los datos el cual 
+# contenga la info relacionada a cada una de las distintas categorías de # peso. Elegir una de las categorías de peso y crear un nuevo 
+# dataset el cual solo contenga los datos pertenecientes a dicha categoría. Estos datos van a ser la base a partir de la cual se va a 
+# trabajar en los siguientes puntos.
+
+# 10. Gra???car la distribución, separando los casos que ganaron de los que perdieron (puede ser en 2 grá???cos separados o dentro del mismo 
+# grá???co utilizando colores distintos, o de cualquier forma en la que se pueda discriminar los casos que ganaron de los que no) de un mínimo 
+# de 4 las siguientes variables :
+# longest_win_streak, losses, total_rounds_fought, total_title_bouts, win_by_Decision_Majority, win_by_Decision_Split,
+# win_by_Decision_Unanimous, win_by_KO/TKO, win_by_Submission, win_by_TKO_Doctor_Stoppage, wins Stance, Height_cms, Reach_cms, Weight_lbs, age.
+
+# 11. Discretizar las variables countinuas del punto anterior, el criterio para de???nir los intervalos es libre.
+
+# 12. Crear un nuevo dataset el cual va a estar compuesto por la variable que indica si se gano o no el encuentro y las variables del 
+# punto anterior.
+
+# 13. Transformar las variables del dataset del punto anterior, exepto la que indica si se ganó o perdió, en variables dummy (también
+# conocido como one-hot-encoding) en el que para cada nivel de la variable se genera una columna la cual indica ???la por ???la si la variable 
+# toma un valor perteneciente a esa subcategoría o nivel.
+
+# 14. Con estos nuevos datos (previamente dividiéndolos en una población de entrenamiento y una población de validación), estimar la 
+# probabilidad de ganar el encuentro. Se sugiere utilizar una regresión logística, pero se puede utilizar otro tipo de modelos siempre 
+# y cuando se comente el motivo detrás de su elección.
+# Aclaración: el número de variables regresoras a utlizar es de libre criterio, y si se desease utilizar variables que no se encuentren 
+# dentro de las listadas, se puede hacer.
+
+# 15. Analizar y comentar sobre los resultados obtenidos en el punto 14.
