@@ -4,3 +4,7 @@
 
  24/10
 	Arreglé el tema de la columna extra en el ejercicio 4.
+
+25/10
+	Agrego un data frame para guardar las estadísticas. Incluyo cuartiles y max y min. Falta el numero de observaciones. Agrego una excepción para evitar campos
+de enteros (la consigna dice "continuas"), pero, por lo visto, campos como "longest_win_streak", están guardados como continuos.
