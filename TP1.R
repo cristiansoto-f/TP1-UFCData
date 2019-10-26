@@ -152,6 +152,8 @@ for(i in 1:ncol(dataUFCFinal)){
   }
 }
 dev.off()
+rm(h)
+rm(histogram_list)
 
 # 8. Graficar el número de encuentros por año, para cada una de las categorías de peso (weight_class).
 categorias<-data.frame(dataUFCFinal$weight_class,year(dataUFCFinal$date))
