@@ -4,6 +4,7 @@
 	Simplifiqué un poco el cálculo de cuartiles.
 	Agregué la cantidad de observaciones. Por la diferencia entre magnitudes, la tabla en r-studio muestra los valores en notación científica, pero están bien.
 	Simplifiqué el 3c. 
+	Simplifiqué el 2.
 
  25/10 
  	-Corregí escritura del ejercicio, utilizar utf-8 para poder visualizar las tildes correctamente y guardarlo bajo ese 		formato.
