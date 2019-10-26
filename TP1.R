@@ -10,7 +10,7 @@ dataUFC = fread(file.choose(), fill = T, header = T, sep = ",")
 
 # 2. Dividir el dataset original en dos datasets distintos, uno con toda la informacion referente al participante
 # de la esquina roja y la informacion en comun del encuentro y otro con la informacion referente al
-# participante de la esquina azul y la informacion en comÃÆÃÂºn del encuentro.
+# participante de la esquina azul y la informacion en común del encuentro.
 
 # Extraigo informacion del peleador rojo y comun
 isRedFighter = dataUFC[,!grepl( "^B_" , names(dataUFC))] #el ^ ayuda a seleccionar solo las columnas que NO EMPIEZAN con B_
