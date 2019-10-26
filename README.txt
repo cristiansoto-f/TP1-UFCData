@@ -1,5 +1,9 @@
 ﻿Actualizaciones TP.
- 
+26/10
+	Agregué ejercicio 7.
+	Consideraciones: El histograma del tiempo de pelea muestra un valor sumamente alto en cierto punto, que todavía no 
+	establecí y no tengo idea de por qué.
+
  26/10
 	Agregue el ejercicio 8, fijenese si está bien o quieren modificar algo  
 
