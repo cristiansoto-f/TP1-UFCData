@@ -10,7 +10,7 @@ dataUFC = fread(file.choose(), fill = T, header = T, sep = ",")
 
 # 2. Dividir el dataset original en dos datasets distintos, uno con toda la informacion referente al participante
 # de la esquina roja y la informacion en comun del encuentro y otro con la informacion referente al
-# participante de la esquina azul y la informacion en común del encuentro.
+# participante de la esquina azul y la informacion en comÃºn del encuentro.
 
 redFighter <- data.table()
 blueFighter <- data.table()
@@ -26,14 +26,14 @@ for (i in 1:ncol(dataUFC)){
 
 # 3. Para los dos datasets obtenidos en el item anterior
 # a) Reemplazar el prefijo que indica el color de la esquina en los nombres de las columnas (R_ o B_) por
-# un '' (un campo vac�o). Por ejemplo, el nombre de la columna "R_fighter" tiene que pasar a llamarse
+# un '' (un campo vacío). Por ejemplo, el nombre de la columna "R_fighter" tiene que pasar a llamarse
 # "fighter". Ambos datasets tendrian que tener nombres de columnas identicos al finalizar.
 
 colnames(blueFighter) <- str_remove_all(colnames(blueFighter),"^B_")
 colnames(redFighter) <- str_remove_all(colnames(redFighter),"^R_")
 
-# b) Crear una variable (o recodear la variable "Winner") que indique si el participante ganó la pelea (1) o
-# no (0). Por ejemplo si se está trabajando con los datos del participante de la esquina azul y la variable
+# b) Crear una variable (o recodear la variable "Winner") que indique si el participante ganÃ³ la pelea (1) o
+# no (0). Por ejemplo si se estÃ¡ trabajando con los datos del participante de la esquina azul y la variable
 # Winner toma el valor de Red, entonces la nueva variable tendria que tomar el valor 0
 
 for(i in 1:nrow(redFighter)){
@@ -49,13 +49,13 @@ for (i in 1:nrow(blueFighter)) {blueFighter[i,"color"]<-"Blue"}
 dataUFCFinal<- rbind(blueFighter, redFighter) 
 
 #5. Reordenar las columnas del dataset obtenido en el punto anterior de forma tal que la primer columna
-# sea la que se calcul� en el �tem 3.b (la cual indica si el participante gan� o no la pelea), manteniendo el
-# orden de las dem�s
+# sea la que se calculó en el ítem 3.b (la cual indica si el participante ganó o no la pelea), manteniendo el
+# orden de las demás
 dataUFCFinal <- setcolorder(dataUFCFinal, "Winner")
 
 
-# 6.Obtener estad�sticas descriptivas b�sicas para todas las variables continuas: media, desv�o, varianza,
-# n�mero de observaciones, m�ximo y m�nimo, cuartiles, etc.
+# 6.Obtener estadísticas descriptivas básicas para todas las variables continuas: media, desvío, varianza,
+# número de observaciones, máximo y mínimo, cuartiles, etc.
 statsUFC <- data.frame()
 for(i in 1:ncol(dataUFCFinal)){
   if(is.numeric(dataUFCFinal[[i]]) && !is.integer(dataUFCFinal[[i]]))
@@ -87,8 +87,8 @@ for(i in 1:ncol(dataUFCFinal)){
 }
 
 
-# 7.Para cada variable numérica graficar el histograma de la misma a efectos de poder visualizar la
-# distribuci�n de la misma. Utilizar por default 10 intervalos, aunque se puede variar el n�mero de los
+# 7.Para cada variable numÃ©rica graficar el histograma de la misma a efectos de poder visualizar la
+# distribución de la misma. Utilizar por default 10 intervalos, aunque se puede variar el número de los
 # mismos si se considerase necesario.
 histograma<-function(x){
   for (i in 1:ncol(dataUFCFinal)) {
@@ -102,32 +102,34 @@ histograma<-function(x){
 histograma(dataUFCFinal$Winner)
 histograma(dataUFCFinal$avg_CLINCH_landed)
 
-# 8. Graficar el número de encuentros por año, para cada una de las categorías de peso (weight_class).
-
+# 8. Graficar el nÃºmero de encuentros por aÃ±o, para cada una de las categorÃ­as de peso (weight_class).
+categorias<-data.frame(dataUFCFinal$weight_class,year(dataUFCFinal$date))
+names(categorias)=c("peso","año")
+ggplot(data=categorias, aes(x=peso,fill= as.factor(año)))  + geom_bar() 
 # 9. Crear una lista de data.frames (u otro tipo de array de datos) donde cada elemento de la lista sea
-# un subset del los datos el cual contenga la info relacionada a cada una de las distintas categorías de
-# peso. Elegir una de las categorías de peso y crear un nuevo dataset el cual solo contenga los datos
-# pertenecientes a dicha categoría. Estos datos van a ser la base a partir de la cual se va a trabajar en los
+# un subset del los datos el cual contenga la info relacionada a cada una de las distintas categorÃ­as de
+# peso. Elegir una de las categorÃ­as de peso y crear un nuevo dataset el cual solo contenga los datos
+# pertenecientes a dicha categorÃ­a. Estos datos van a ser la base a partir de la cual se va a trabajar en los
 # siguientes puntos.
 
-# 10. Graficar la distribución, separando los casos que ganaron de los que perdieron (puede ser en 2 gráficos
-# separados o dentro del mismo gráfico utilizando colores distintos, o de cualquier forma en la que se
-# pueda discriminar los casos que ganaron de los que no) de un mínimo de 4 las siguientes variables :
+# 10. Graficar la distribuciÃ³n, separando los casos que ganaron de los que perdieron (puede ser en 2 grÃ¡ficos
+# separados o dentro del mismo grÃ¡fico utilizando colores distintos, o de cualquier forma en la que se
+# pueda discriminar los casos que ganaron de los que no) de un mÃ­nimo de 4 las siguientes variables :
 
 # 11. Discretizar las variables countinuas del punto anterior, el criterio para definir los intervalos es libre.
 
 # 12. Crear un nuevo dataset el cual va a estar compuesto por la variable que indica si se gano o no el
 # encuentro y las variables del punto anterior.
 
-# 13. Transformar las variables del dataset del punto anterior, exepto la que indica si se ganó o perdió, en
-# variables dummy (también conocido como one-hot-encoding) en el que para cada nivel de la variable
+# 13. Transformar las variables del dataset del punto anterior, exepto la que indica si se ganÃ³ o perdiÃ³, en
+# variables dummy (tambiÃ©n conocido como one-hot-encoding) en el que para cada nivel de la variable
 # se genera una columna la cual indica fila por fila si la variable toma un valor perteneciente a esa
-# subcategoría o nivel.
+# subcategorÃ­a o nivel.
 
-# 14. Con estos nuevos datos (previamente dividiéndolos en una población de entrenamiento y una poblción
-# de validación), estimar la probabilidad de ganar el encuentro. Se sugiere utilizar una regresión logística,
-# pero se puede utilizar otro tipo de modelos siempre y cuando se comente el motivo detrás de su elección.
-# Aclaración: el número de variables regresoras a utlizar es de libre criterio, y si se desease utilizar
+# 14. Con estos nuevos datos (previamente dividiÃ©ndolos en una poblaciÃ³n de entrenamiento y una poblciÃ³n
+# de validaciÃ³n), estimar la probabilidad de ganar el encuentro. Se sugiere utilizar una regresiÃ³n logÃ­stica,
+# pero se puede utilizar otro tipo de modelos siempre y cuando se comente el motivo detrÃ¡s de su elecciÃ³n.
+# AclaraciÃ³n: el nÃºmero de variables regresoras a utlizar es de libre criterio, y si se desease utilizar
 # variables que no se encuentren dentro de las listadas, se puede hacer.
 
 # 15. Analizar y comentar sobre los resultados obtenidos en el punto 14.
