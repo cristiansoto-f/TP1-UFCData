@@ -32,14 +32,14 @@ for (i in 1:ncol(dataUFC)){
 
 # 3. Para los dos datasets obtenidos en el item anterior
 # a) Reemplazar el prefijo que indica el color de la esquina en los nombres de las columnas (R_ o B_) por
-# un â€ (un campo vacÃ­o). Por ejemplo, el nombre de la columna â€œR_fighterâ€ tiene que pasar a llamarse
-# â€œfighterâ€. Ambos datasets tendrian que tener nombres de columnas identicos al finalizar.
+# un '' (un campo vacío). Por ejemplo, el nombre de la columna "R_fighter" tiene que pasar a llamarse
+# "fighter". Ambos datasets tendrian que tener nombres de columnas identicos al finalizar.
 
 
 colnames(blueFighter)<-str_remove_all(colnames(blueFighter),"^B_")
 colnames(redFighter)<-str_remove_all(colnames(redFighter),"^R_")
 
-# b) Crear una variable (o recodear la variable â€œWinnerâ€) que indique si el participante ganÃ³ la pelea (1) o
+# b) Crear una variable (o recodear la variable "Winner") que indique si el participante ganÃ³ la pelea (1) o
 # no (0). Por ejemplo si se estÃ¡ trabajando con los datos del participante de la esquina azul y la variable
 # Winner toma el valor de Red, entonces la nueva variable tendria que tomar el valor 0
 
@@ -63,13 +63,13 @@ rm(color)
 dataUFCFinal<- rbind(blueFighter, redFighter) 
 
 #5. Reordenar las columnas del dataset obtenido en el punto anterior de forma tal que la primer columna
-# sea la que se calculÃ³ en el Ã­tem 3.b (la cual indica si el participante ganÃ³ o no la pelea), manteniendo el
-# orden de las demÃ¡s
+# sea la que se calculó en el ítem 3.b (la cual indica si el participante ganó o no la pelea), manteniendo el
+# orden de las demás
 dataUFCFinal <- setcolorder(dataUFCFinal, "Winner")
 
 
-# 6.Obtener estadÃ­sticas descriptivas bÃ¡sicas para todas las variables continuas: media, desvÃ­o, varianza,
-# nÃºmero de observaciones, mÃ¡ximo y mÃ­nimo, cuartiles, etc.
+# 6.Obtener estadísticas descriptivas básicas para todas las variables continuas: media, desvío, varianza,
+# número de observaciones, máximo y mínimo, cuartiles, etc.
 statsUFC <- data.frame()
 for(i in 1:ncol(dataUFCFinal)){
   if(is.numeric(dataUFCFinal[[i]]) && !is.integer(dataUFCFinal[[i]]))
@@ -95,7 +95,6 @@ for(i in 1:ncol(dataUFCFinal)){
     statsUFC["max", ncol(statsUFC)] <- max(dataUFCFinal[[i]], na.rm=T)
     
     statsUFC["obs", ncol(statsUFC)] <- length(which(!is.na(dataUFCFinal[[i]])))
-    #print(statsUFC["observaciones", ncol(statsUFC)])
     
     colnames(statsUFC)[ncol(statsUFC)] <- colnames(dataUFCFinal)[i]
   }
@@ -103,7 +102,7 @@ for(i in 1:ncol(dataUFCFinal)){
 
 
 # 7.Para cada variable numÃ©rica graficar el histograma de la misma a efectos de poder visualizar la
-# distribuciÃ³n de la misma. Utilizar por default 10 intervalos, aunque se puede varÃ­ar el nÃºmero de los
+# distribución de la misma. Utilizar por default 10 intervalos, aunque se puede variar el número de los
 # mismos si se considerase necesario.
 histograma<-function(x){
   for (i in 1:ncol(dataUFCFinal)) {
