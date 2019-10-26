@@ -1,5 +1,8 @@
 ﻿Actualizaciones TP.
- 
+
+26/10
+	Simplifiqué un poco el cálculo de cuartiles. 
+
  25/10 
  	-Corregí escritura del ejercicio, utilizar utf-8 para poder visualizar las tildes correctamente y guardarlo bajo ese 		formato.
 	-Agregué un par de medidas de descripcion y eliminé los printf.
