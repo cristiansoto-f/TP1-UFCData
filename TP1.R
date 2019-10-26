@@ -1,9 +1,11 @@
 #install.packages("data.table")
 #install.packages("stringr")
 #install.packages("moments")
+#install.packages("ggplot2")
 library(data.table)
 library(stringr)
 library(moments)
+library(ggplot2)
 
 # 1. Importar el dataset, guardarlo en un objeto bidimensional (puede ser un data.frame, data.table, tibble, etc.)
 dataUFC = fread(file.choose(), fill = T, header = T, sep = ",")
@@ -90,17 +92,66 @@ for(i in 1:ncol(dataUFCFinal)){
 # 7.Para cada variable numérica graficar el histograma de la misma a efectos de poder visualizar la
 # distribución de la misma. Utilizar por default 10 intervalos, aunque se puede varíar el número de los
 # mismos si se considerase necesario.
-histograma<-function(x){
-  for (i in 1:ncol(dataUFCFinal)) {
-    if(is.numeric(x[[i]])) {
-      hist((x),col="red", main="Histograma" ,ylab="Frecuencia" ,xlab="Valores",breaks = 10)  
-    }else{
-      print("No es Numerico")
-    }
+
+# Dada la magnitud de los histogramas a calcular, se mostrarán los que se consideran
+# más interesantes aparte  y luego mediante un loop todos, en un PDF.
+
+# Histogramas más importantes 
+
+#Edad
+#ggplot(data=dataUFCFinal, aes(dataUFCFinal[[76]])) + 
+#  geom_histogram(color = "black", fill = "palegreen1", bins = 33, na.rm = T) +
+#  labs(x = "Edad", y="Cantidad", title = "Histograma edad") +
+#  xlim(c(18,51))
+
+ggplot(data=dataUFCFinal, aes(dataUFCFinal[[76]])) + 
+  geom_histogram(bins = 33, na.rm = T, aes(fill=..count..)) +
+  labs(x = "Edad", y="Cantidad", title = "Histograma edad") +
+  xlim(c(18,51)) +
+  scale_fill_gradient("Cantidad", low = "green", high = "red")
+
+#Peso (en libras)
+#El siguiente grafico no refleja algunos outliers de luchadores pesados
+ggplot(data=dataUFCFinal, aes(dataUFCFinal[[75]])) + 
+  geom_histogram(bins = 30, na.rm = T, aes(fill=..count..)) +
+  labs(x = "Peso", y="Cantidad", title = "Histograma peso (en libras)") +
+  xlim(c(115,350)) +
+  scale_fill_gradient("Cantidad", low = "green", high = "red")
+
+#Altura
+ggplot(data=dataUFCFinal, aes(dataUFCFinal[[73]])) + 
+  geom_histogram(color = "black", fill = "palegreen1", bins = 25, na.rm = T) +
+  labs(x = "Altura (cm)", y="Cantidad", title = "Histograma altura") +
+  xlim(c(150,211))
+
+# Tiempo de pelea
+#muchas parecen terminar en un momento X, por qué?
+ggplot(data=dataUFCFinal, aes(dataUFCFinal[[63]])) + 
+  geom_histogram(color = "black", fill = "palegreen1", bins = 200, na.rm = T) +
+  labs(x = "Tiempo(seg)", y="Cantidad", title = "Histograma tiempo total de pelea") +
+  #xlim(c(150,211))
+
+# Todos los histogramas
+
+histogram_list = list() #Se generarán 420mb de datos
+for(i in 1:ncol(dataUFCFinal)){
+  if(is.numeric(dataUFCFinal[[i]]))
+  {
+    h = (ggplot(data=dataUFCFinal, aes(dataUFCFinal[[i]])) + 
+      geom_histogram(color = "black", fill = "palegreen1", bins = 10, na.rm = T) +
+      labs(x = sprintf("%s", colnames(dataUFCFinal)[i]), y="Cantidad"))
+    histogram_list[[i]] = h
   }
 }
-histograma(dataUFCFinal$Winner)
-histograma(dataUFCFinal$avg_CLINCH_landed)
+
+pdf("histogramas.pdf")
+for(i in 1:ncol(dataUFCFinal)){
+  if(is.numeric(dataUFCFinal[[i]]))
+  {
+    print(histogram_list[[i]])
+  }
+}
+dev.off()
 
 # 8. Graficar el número de encuentros por año, para cada una de las categorías de peso (weight_class).
 categorias<-data.frame(dataUFCFinal$weight_class,year(dataUFCFinal$date))
