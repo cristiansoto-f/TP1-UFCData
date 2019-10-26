@@ -1,4 +1,8 @@
 ﻿Actualizaciones TP.
+ 25/10 
+ Agregue al ejercicio 6 la kurtosis y la asimetria, es necesario cargar el paquete moments
+ Para el ejercicio 7 hice una funcion donde solo pones la variable que queres ya que no se como hacer para que te tire todos los histogramas juntos
+ 
   23/10- El ejercicio 6 se encuentra incompleto dado que no todas las variables son continuas, no pude encontrar una función que me   indique si los valores de las columnas son float. Intenté con la libreria float y la función is.float pero no hubo resultado.
     Faltan más medidas de descripción.
 
