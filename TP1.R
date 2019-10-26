@@ -35,9 +35,8 @@ for (i in 1:ncol(dataUFC)){
 # un '' (un campo vac�o). Por ejemplo, el nombre de la columna "R_fighter" tiene que pasar a llamarse
 # "fighter". Ambos datasets tendrian que tener nombres de columnas identicos al finalizar.
 
-
-colnames(blueFighter)<-str_remove_all(colnames(blueFighter),"^B_")
-colnames(redFighter)<-str_remove_all(colnames(redFighter),"^R_")
+colnames(blueFighter) <- str_remove_all(colnames(blueFighter),"^B_")
+colnames(redFighter) <- str_remove_all(colnames(redFighter),"^R_")
 
 # b) Crear una variable (o recodear la variable "Winner") que indique si el participante ganó la pelea (1) o
 # no (0). Por ejemplo si se está trabajando con los datos del participante de la esquina azul y la variable
@@ -49,15 +48,8 @@ for(i in 1:nrow(redFighter)){
 }
 
 # c) Crear una variable que haga referencia al color de la esquina de cada dataset.
-color <- vector(mode = "character", nrow(redFighter))
-
-for (i in 1:length(color)) {color[i]<-"Red"}
-redFighter <- cbind(color, redFighter)
-
-for (i in 1:length(color)) {color[i]<-"Blue"}
-blueFighter <- cbind(color, blueFighter)
-
-rm(color)
+for (i in 1:nrow(redFighter)) {redFighter[i,"color"]<-"Red"}
+for (i in 1:nrow(blueFighter)) {blueFighter[i,"color"]<-"Blue"}
 
 #4. Unir las filas de ambos datasets en uno solo.
 dataUFCFinal<- rbind(blueFighter, redFighter) 
