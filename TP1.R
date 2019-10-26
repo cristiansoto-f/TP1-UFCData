@@ -88,12 +88,11 @@ for(i in 1:ncol(dataUFCFinal)){
 
     statsUFC["Asim", ncol(statsUFC)] <- skewness(dataUFCFinal[[i]], na.rm = T)
     
-    quantiles<-quantile(dataUFCFinal[[i]], na.rm = T)
-    statsUFC["min", ncol(statsUFC)] <- quantiles[1]
-    statsUFC["1er Q", ncol(statsUFC)] <- quantiles[2]
-    statsUFC["2do Q", ncol(statsUFC)] <- quantiles[3]
-    statsUFC["3er Q", ncol(statsUFC)] <- quantiles[4]
-    statsUFC["max", ncol(statsUFC)] <- quantiles[5]
+    statsUFC["min", ncol(statsUFC)] <- min(dataUFCFinal[[i]], na.rm=T)
+    statsUFC["1er Q", ncol(statsUFC)] <- quantile(dataUFCFinal[[i]], probs = 0.25, na.rm = T)
+    statsUFC["2do Q", ncol(statsUFC)] <- quantile(dataUFCFinal[[i]], probs = 0.5, na.rm = T)
+    statsUFC["3er Q", ncol(statsUFC)] <- quantile(dataUFCFinal[[i]], probs = 0.75, na.rm = T)
+    statsUFC["max", ncol(statsUFC)] <- max(dataUFCFinal[[i]], na.rm=T)
     
     colnames(statsUFC)[ncol(statsUFC)] <- colnames(dataUFCFinal)[i]
   }
