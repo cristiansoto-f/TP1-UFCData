@@ -12,20 +12,14 @@ dataUFC = fread(file.choose(), fill = T, header = T, sep = ",")
 # de la esquina roja y la informacion en comun del encuentro y otro con la informacion referente al
 # participante de la esquina azul y la informacion en común del encuentro.
 
-# Extraigo informacion del peleador rojo y comun
-isRedFighter = dataUFC[,!grepl( "^B_" , names(dataUFC))] #el ^ ayuda a seleccionar solo las columnas que NO EMPIEZAN con B_
-
-# Extraigo informacion del peleador azul y comun
-isBlueFighter = dataUFC[,!grepl( "^R_" , names(dataUFC))]
-
 redFighter <- data.table()
 blueFighter <- data.table()
 
 for (i in 1:ncol(dataUFC)){
-  if (isRedFighter[i]){
+  if (!str_detect(names(dataUFC[,..i]), "^B_")){
     redFighter <- cbind(redFighter, dataUFC[,..i])
   }
-  if (isBlueFighter[i]) {
+  if (!str_detect(names(dataUFC[,..i]), "^R_")) {
     blueFighter <- cbind(blueFighter, dataUFC[,..i])
   }
 }
