@@ -2,7 +2,7 @@
  
  25/10 
  	-Corregí escritura del ejercicio, utilizar utf-8 para poder visualizar las tildes correctamente y guardarlo bajo ese 		formato.
-	-Agregué un par de medidas de descripcion, pero estas NO se guardan en el data.frame
+	-Agregué un par de medidas de descripcion y eliminé los printf.
 	
  
  25/10 
