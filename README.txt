@@ -1,4 +1,7 @@
 ﻿Actualizaciones TP.
+ 
+ 26/10
+	Agregue el ejercicio 8, fijenese si está bien o quieren modificar algo  
 
 26/10
 	Simplifiqué un poco el cálculo de cuartiles.
