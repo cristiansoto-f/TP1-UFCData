@@ -74,27 +74,18 @@ statsUFC <- data.frame()
 for(i in 1:ncol(dataUFCFinal)){
   if(is.numeric(dataUFCFinal[[i]]) && !is.integer(dataUFCFinal[[i]]))
   {
-    #print("---------------------------------------------------------")
-    
-    print(sprintf("Variable: %s", colnames(dataUFCFinal)[i]))
-    print(sprintf("Media: %f", mean(dataUFCFinal[[i]], na.rm = T)))
     statsUFC["media",ncol(statsUFC)+1] <- mean(dataUFCFinal[[i]], na.rm = T)
-    
-    print(sprintf("Mediana: %f", median(dataUFCFinal[[i]], na.rm = T)))
+
     statsUFC["mediana", ncol(statsUFC)] <- median(dataUFCFinal[[i]], na.rm = T)
-    print(sprintf("MAD: %f", mad(dataUFCFinal[[i]], na.rm = T)))
+    
     statsUFC["mad", ncol(statsUFC)] <- mad(dataUFCFinal[[i]], na.rm = T)
     
-    print(sprintf("Varianza: %f", var(dataUFCFinal[[i]], na.rm = T)))
     statsUFC["var", ncol(statsUFC)] <- var(dataUFCFinal[[i]], na.rm = T)
     
-    print(sprintf("Desviación estándar: %f", sd(dataUFCFinal[[i]], na.rm = T)))
     statsUFC["std dev", ncol(statsUFC)] <- sd(dataUFCFinal[[i]], na.rm=T)
     
-    print(sprintf("Kurtosis: %f", kurtosis(dataUFCFinal[[i]], na.rm = T)))
     statsUFC["kurt", ncol(statsUFC)] <- kurtosis(dataUFCFinal[[i]], na.rm = T)
-    
-    print(sprintf("Asimetria: %f", skewness(dataUFCFinal[[i]], na.rm = T)))
+
     statsUFC["Asim", ncol(statsUFC)] <- skewness(dataUFCFinal[[i]], na.rm = T)
     
     quantiles<-quantile(dataUFCFinal[[i]], na.rm = T)
