@@ -94,6 +94,9 @@ for(i in 1:ncol(dataUFCFinal)){
     statsUFC["3er Q", ncol(statsUFC)] <- quantile(dataUFCFinal[[i]], probs = 0.75, na.rm = T)
     statsUFC["max", ncol(statsUFC)] <- max(dataUFCFinal[[i]], na.rm=T)
     
+    statsUFC["obs", ncol(statsUFC)] <- length(which(!is.na(dataUFCFinal[[i]])))
+    #print(statsUFC["observaciones", ncol(statsUFC)])
+    
     colnames(statsUFC)[ncol(statsUFC)] <- colnames(dataUFCFinal)[i]
   }
 }
