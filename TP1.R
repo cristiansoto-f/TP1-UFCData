@@ -81,7 +81,9 @@ for(i in 1:ncol(dataUFCFinal)){
     statsUFC["media",ncol(statsUFC)+1] <- mean(dataUFCFinal[[i]], na.rm = T)
     
     print(sprintf("Mediana: %f", median(dataUFCFinal[[i]], na.rm = T)))
+    statsUFC["mediana", ncol(statsUFC)] <- median(dataUFCFinal[[i]], na.rm = T)
     print(sprintf("MAD: %f", mad(dataUFCFinal[[i]], na.rm = T)))
+    statsUFC["mad", ncol(statsUFC)] <- mad(dataUFCFinal[[i]], na.rm = T)
     
     print(sprintf("Varianza: %f", var(dataUFCFinal[[i]], na.rm = T)))
     statsUFC["var", ncol(statsUFC)] <- var(dataUFCFinal[[i]], na.rm = T)
