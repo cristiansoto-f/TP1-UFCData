@@ -3,6 +3,7 @@
 	Agregué ejercicio 7.
 	Consideraciones: El histograma del tiempo de pelea muestra un valor sumamente alto en cierto punto, que todavía no 
 	establecí y no tengo idea de por qué.
+	Agregué gráficos por categorias punto 8, para esto fue necesaria el paquete dplyr, no agregué todos, debe haber alguna 		forma de mostrar los distintos graficos con un loop. No he encontrado la forma de contabilizar cada categoría en cada 		año de una sola vez.
 
  26/10
 	Agregue el ejercicio 8, fijenese si está bien o quieren modificar algo  
