@@ -2,10 +2,12 @@
 #install.packages("stringr")
 #install.packages("moments")
 #install.packages("ggplot2")
+#install.packages("dplyr")
 library(data.table)
 library(stringr)
 library(moments)
 library(ggplot2)
+library(dplyr)
 
 # 1. Importar el dataset, guardarlo en un objeto bidimensional (puede ser un data.frame, data.table, tibble, etc.)
 dataUFC = fread(file.choose(), fill = T, header = T, sep = ",")
@@ -156,9 +158,67 @@ rm(h)
 rm(histogram_list)
 
 # 8. Graficar el número de encuentros por año, para cada una de las categorías de peso (weight_class).
-categorias<-data.frame(dataUFCFinal$weight_class,year(dataUFCFinal$date))
+categorias<-data.frame(dataUFC$weight_class,year(dataUFC$date))
 names(categorias)=c("peso","año")
 ggplot(data=categorias, aes(x=peso,fill= as.factor(año)))  + geom_bar() 
+
+# Es necesario trabajar con dataUFC dado que dataUFCFinal contabiliza dos veces los datos en común
+# por el hecho de haber separado a los peleadores y unirlos en filas (punto 4)
+##  WOMEN'S STRAWEIGHT
+weigh.class.womenstrawweight = dataUFC[, .(weight_class == "Women's Strawweight", year(dataUFC$date))]
+tab_sum = weigh.class.womenstrawweight %>% group_by(V2) %>%
+  filter(V1) %>%
+  summarise(trues = n())
+
+ggplot(tab_sum, aes(V2, trues)) + 
+  geom_line() +
+  geom_point(size = 2, color = "red") +
+  labs(x = "Año", y="Nro de Peleas", title = "Cantidad de peleas por año: Women's Strawweight")
+rm(weigh.class.womenstrawweight)
+##  WOMEN'S FLYWEIGHT
+weigh.class.womensflyweight = dataUFC[, .(weight_class == "Women's Flyweight", year(dataUFC$date))]
+tab_sum = weigh.class.womensflyweight %>% group_by(V2) %>%
+  filter(V1) %>%
+  summarise(trues = n())
+
+ggplot(tab_sum, aes(V2, trues)) + 
+  geom_line() +
+  geom_point(size = 2, color = "red") +
+  labs(x = "Año", y="Nro de Peleas", title = "Cantidad de peleas por año: Women's Flyweight")
+rm(weigh.class.womensflyweight)
+## WOMEN'S FEATHERWEIGHT
+weigh.class.womensfeather = dataUFC[, .(weight_class == "Women's Featherweight", year(dataUFC$date))]
+tab_sum = weigh.class.womensfeather %>% group_by(V2) %>%
+  filter(V1) %>%
+  summarise(trues = n())
+
+ggplot(tab_sum, aes(V2, trues)) + 
+  geom_line() +
+  geom_point(size = 2, color = "red") +
+  labs(x = "Año", y="Nro de Peleas", title = "Cantidad de peleas por año: Women's Featherweight")
+rm(weigh.class.womensfeather)
+##  WOMEN'S BANTAWEIGHT
+weigh.class.womensbantam = dataUFC[, .(weight_class == "Women's Bantamweight", year(dataUFC$date))]
+tab_sum = weigh.class.womensbantam %>% group_by(V2) %>%
+  filter(V1) %>%
+  summarise(trues = n())
+
+ggplot(tab_sum, aes(V2, trues)) + 
+  geom_line() +
+  geom_point(size = 2, color = "red") +
+  labs(x = "Año", y="Nro de Peleas", title = "Cantidad de peleas por año: Women's Bantamweight")
+rm(weigh.class.womensbantam)
+##  WELTERWEIGHT
+weigh.class.Welterweight = dataUFC[, .(weight_class == "Welterweight", year(dataUFC$date))]
+tab_sum = weigh.class.Welterweight %>% group_by(V2) %>%
+  filter(V1) %>%
+  summarise(trues = n())
+
+ggplot(tab_sum, aes(V2, trues)) + 
+  geom_line() +
+  geom_point(size = 2, color = "red") +
+  labs(x = "Año", y="Nro de Peleas", title = "Cantidad de peleas por año: Welterweight")
+rm(weigh.class.Welterweight)
 # 9. Crear una lista de data.frames (u otro tipo de array de datos) donde cada elemento de la lista sea
 # un subset del los datos el cual contenga la info relacionada a cada una de las distintas categorías de
 # peso. Elegir una de las categorías de peso y crear un nuevo dataset el cual solo contenga los datos
