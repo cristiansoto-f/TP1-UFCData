@@ -230,6 +230,7 @@ ggplot(dplyr::filter(dataMiddleweight,  !is.na(losses)), aes(x = losses, fill= W
   geom_text(stat='count', aes(label=..count..), vjust=0,  position = position_stack(0.5))
 
 # 11. Discretizar las variables countinuas del punto anterior, el criterio para definir los intervalos es libre.
+# Variables continuas: Height_cms, Reach_cms, Weight_lbs.
 
 # 12. Crear un nuevo dataset el cual va a estar compuesto por la variable que indica si se gano o no el
 # encuentro y las variables del punto anterior.
