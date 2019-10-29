@@ -169,8 +169,8 @@ cat = c("Women's Strawweight", "Women's Flyweight", "Women's Featherweight", "Wo
 count_list = list()
 for(i in 1:length(cat))
 {
-  weigh.class = dataUFC[, .(weight_class == cat[i], year(dataUFC$date))]
-  tab_sum = weigh.class %>% group_by(V2) %>%
+  weight.class = dataUFC[, .(weight_class == cat[i], year(dataUFC$date))]
+  tab_sum = weight.class %>% group_by(V2) %>%
     filter(V1) %>%
     summarise(trues = n())
   
@@ -193,6 +193,15 @@ rm(count_list)
 # peso. Elegir una de las categorías de peso y crear un nuevo dataset el cual solo contenga los datos
 # pertenecientes a dicha categoría. Estos datos van a ser la base a partir de la cual se va a trabajar en los
 # siguientes puntos.
+categorias2 = list()
+for(i in 1:length(cat))
+{
+  w = dplyr::filter(dataUFCFinal,  weight_class == cat[i])
+  categorias2[[i]] = w
+}
+rm(w)
+
+Middleweight = categorias2[[7]]
 
 # 10. Graficar la distribución, separando los casos que ganaron de los que perdieron (puede ser en 2 gráficos
 # separados o dentro del mismo gráfico utilizando colores distintos, o de cualquier forma en la que se
