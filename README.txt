@@ -4,7 +4,8 @@
 	Agregado el ejercicio 9 y elegida la categoria de peso medio, ya que es la que dispone de más información.
 
 	Agrego librería para probar un par de cosas y simplificar.
-	Cambio un poco el acceso al data table para los histogramas (en vez de el número de columna, busca el nombre de variable).	
+	Cambio un poco el acceso al data table para los histogramas (en vez de el número de columna, busca el nombre de variable).
+	Remplazo el ingreso manual de categorías por una función de extracción.	
 
 26/10
 	Agregué ejercicio 7.
