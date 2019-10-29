@@ -4,12 +4,14 @@
 #install.packages("ggplot2")
 #install.packages("dplyr")
 #install.packages("stringi")
+#install.packages("gridExtra")
 library(data.table)
 library(stringr)
 library(moments)
 library(ggplot2)
 library(dplyr)
 library(stringi)
+library(gridExtra)
 
 # 1. Importar el dataset, guardarlo en un objeto bidimensional (puede ser un data.frame, data.table, tibble, etc.)
 dataUFC = fread(file.choose(), fill = T, header = T, sep = ",")
@@ -208,26 +210,26 @@ dataMiddleweight <- dataCategorias[["Middleweight"]]
 # 10. Graficar la distribución, separando los casos que ganaron de los que perdieron (puede ser en 2 gráficos
 # separados o dentro del mismo gráfico utilizando colores distintos, o de cualquier forma en la que se
 # pueda discriminar los casos que ganaron de los que no) de un mínimo de 4 las siguientes variables :
-
+grid.arrange(
 ggplot(dplyr::filter(dataMiddleweight,  Stance != ""), aes(x = Stance, fill= Winner, show.legend = T)) + 
   geom_bar(position = "stack") + theme_minimal() + labs(fill = "Result", y = "Count") +
   scale_fill_discrete(name = "Result", labels = c("Victories","Defeats")) +
-  geom_text(stat='count', aes(label=..count..), vjust=0,  position = position_stack(0.5))
+  geom_text(stat='count', aes(label=..count..), vjust=0,  position = position_stack(0.5)),
 
 ggplot(dplyr::filter(dataMiddleweight,  !is.na(age)), aes(x = age, fill= Winner, show.legend = T)) + 
   geom_bar(position = "stack") + theme_minimal() + labs(fill = "Result", y = "Count", x = "Age") +
   scale_fill_discrete(name = "Result", labels = c("Victories","Defeats")) +
-  geom_text(stat='count', aes(label=..count..), vjust=0,  position = position_stack(0.5))
+  geom_text(stat='count', aes(label=..count..), vjust=0,  position = position_stack(0.5)),
 
 ggplot(dplyr::filter(dataMiddleweight,  !is.na(wins)), aes(x = wins, fill= Winner, show.legend = T)) + 
   geom_bar(position = "stack") + theme_minimal() + labs(fill = "Result", y = "Count", x = "Wins") +
   scale_fill_discrete(name = "Result", labels = c("Victories","Defeats")) +
-  geom_text(stat='count', aes(label=..count..), vjust=0,  position = position_stack(0.5))
+  geom_text(stat='count', aes(label=..count..), vjust=0,  position = position_stack(0.5)),
 
 ggplot(dplyr::filter(dataMiddleweight,  !is.na(losses)), aes(x = losses, fill= Winner, show.legend = T)) + 
   geom_bar(position = "stack") + theme_minimal() + labs(fill = "Result", y = "Count", x = "Losses") +
   scale_fill_discrete(name = "Result", labels = c("Victories","Defeats")) +
-  geom_text(stat='count', aes(label=..count..), vjust=0,  position = position_stack(0.5))
+  geom_text(stat='count', aes(label=..count..), vjust=0,  position = position_stack(0.5)))
 
 # 11. Discretizar las variables countinuas del punto anterior, el criterio para definir los intervalos es libre.
 # Variables continuas: Height_cms, Reach_cms, Weight_lbs.
