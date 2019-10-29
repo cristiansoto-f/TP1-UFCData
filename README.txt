@@ -12,6 +12,7 @@
 	Más detalles, quedan solo arreglos estéticos.
 	Agrego gráfico de age.
 	Modifico los gráficos para ser más acordes a la consigna.
+	Agregados gráficos de wins y losses, por lo que el punto 10 estaría terminado. Hay arreglos estéticos que se pueden hacer más tarde.
 
 26/10
 	Agregué ejercicio 7.
