@@ -14,6 +14,7 @@
 	Modifico los gráficos para ser más acordes a la consigna.
 	Agregados gráficos de wins y losses, por lo que el punto 10 estaría terminado. Hay arreglos estéticos que se pueden hacer más tarde.
 	Agregadas en comentario las variables continuas a discretizar para el 11.
+	Agrego librería y función para mostrar más de 1 gráfico.
 
 26/10
 	Agregué ejercicio 7.
