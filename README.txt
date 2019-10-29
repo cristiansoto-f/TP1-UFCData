@@ -8,6 +8,7 @@
 	Remplazo el ingreso manual de categorías por una función de extracción.	
 	Elimino una variable redundante.
 	Renombro un par de variables para claridad.
+	Agrego gráfico de Stance. Faltan detalles, pero está la base.
 
 26/10
 	Agregué ejercicio 7.
