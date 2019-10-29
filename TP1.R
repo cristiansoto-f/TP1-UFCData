@@ -9,7 +9,7 @@ library(stringr)
 library(moments)
 library(ggplot2)
 library(dplyr)
-library(stringi)
+#library(stringi)
 
 # 1. Importar el dataset, guardarlo en un objeto bidimensional (puede ser un data.frame, data.table, tibble, etc.)
 dataUFC = fread(file.choose(), fill = T, header = T, sep = ",")
@@ -108,7 +108,7 @@ for(i in 1:ncol(dataUFCFinal)){
 #  labs(x = "Edad", y="Cantidad", title = "Histograma edad") +
 #  xlim(c(18,51))
 
-ggplot(data=dataUFCFinal, aes(dataUFCFinal[[76]])) + 
+ggplot(data=dataUFCFinal, aes(dataUFCFinal[["age"]])) + 
   geom_histogram(bins = 33, na.rm = T, aes(fill=..count..)) +
   labs(x = "Edad", y="Cantidad", title = "Histograma edad") +
   xlim(c(18,51)) +
@@ -116,24 +116,24 @@ ggplot(data=dataUFCFinal, aes(dataUFCFinal[[76]])) +
 
 #Peso (en libras)
 #El siguiente grafico no refleja algunos outliers de luchadores pesados
-ggplot(data=dataUFCFinal, aes(dataUFCFinal[[75]])) + 
+ggplot(data=dataUFCFinal, aes(dataUFCFinal[["Weight_lbs"]])) + 
   geom_histogram(bins = 30, na.rm = T, aes(fill=..count..)) +
   labs(x = "Peso", y="Cantidad", title = "Histograma peso (en libras)") +
   xlim(c(115,350)) +
   scale_fill_gradient("Cantidad", low = "green", high = "red")
 
 #Altura
-ggplot(data=dataUFCFinal, aes(dataUFCFinal[[73]])) + 
+ggplot(data=dataUFCFinal, aes(dataUFCFinal[["Height_cms"]])) + 
   geom_histogram(color = "black", fill = "palegreen1", bins = 25, na.rm = T) +
   labs(x = "Altura (cm)", y="Cantidad", title = "Histograma altura") +
   xlim(c(150,211))
 
 # Tiempo de pelea
 #muchas parecen terminar en un momento X, por qué?
-ggplot(data=dataUFCFinal, aes(dataUFCFinal[[63]])) + 
+ggplot(data=dataUFCFinal, aes(dataUFCFinal[["total_time_fought(seconds)"]])) + 
   geom_histogram(color = "black", fill = "palegreen1", bins = 200, na.rm = T) +
   labs(x = "Tiempo(seg)", y="Cantidad", title = "Histograma tiempo total de pelea") +
-  #xlim(c(150,211))
+  xlim(c(150,211))
 
 # Todos los histogramas
 
