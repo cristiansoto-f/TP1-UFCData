@@ -210,14 +210,14 @@ dataMiddleweight <- dataCategorias[["Middleweight"]]
 # pueda discriminar los casos que ganaron de los que no) de un mínimo de 4 las siguientes variables :
 
 ggplot(dplyr::filter(dataMiddleweight,  Stance != ""), aes(x = Stance, fill= Winner, show.legend = T)) + 
-  geom_bar(position = position_dodge()) + theme_minimal() + labs(fill = "Result", y = "Count") +
+  geom_bar(position = "stack") + theme_minimal() + labs(fill = "Result", y = "Count") +
   scale_fill_discrete(name = "Result", labels = c("Victories","Defeats")) +
-  geom_text(stat='count', aes(label=..count..), vjust=0,  position = position_dodge(0.9))
+  geom_text(stat='count', aes(label=..count..), vjust=0,  position = position_stack(0.5))
 
 ggplot(dplyr::filter(dataMiddleweight,  !is.na(age)), aes(x = age, fill= Winner, show.legend = T)) + 
-  geom_bar(position = position_dodge()) + theme_minimal() + labs(fill = "Result", y = "Count", x = "Age") +
+  geom_bar(position = "stack") + theme_minimal() + labs(fill = "Result", y = "Count", x = "Age") +
   scale_fill_discrete(name = "Result", labels = c("Victories","Defeats")) +
-  geom_text(stat='count', aes(label=..count..), vjust=0,  position = position_dodge(0.9))
+  geom_text(stat='count', aes(label=..count..), vjust=0,  position = position_stack(0.5))
 
 # 11. Discretizar las variables countinuas del punto anterior, el criterio para definir los intervalos es libre.
 
