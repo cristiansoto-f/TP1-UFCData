@@ -2,6 +2,8 @@
 29/10
 	Simplificado el código del ejercicio 8 y completo.
 	Agregado el ejercicio 9 y elegida la categoria de peso medio, ya que es la que dispone de más información.
+
+	Agrego librería para probar un par de cosas y simplificar.
 26/10
 	Agregué ejercicio 7.
 	Consideraciones: El histograma del tiempo de pelea muestra un valor sumamente alto en cierto punto, que todavía no 
