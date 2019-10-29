@@ -6,6 +6,7 @@
 	Agrego librería para probar un par de cosas y simplificar.
 	Cambio un poco el acceso al data table para los histogramas (en vez de el número de columna, busca el nombre de variable).
 	Remplazo el ingreso manual de categorías por una función de extracción.	
+	Elimino una variable redundante.
 
 26/10
 	Agregué ejercicio 7.
