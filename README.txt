@@ -10,6 +10,7 @@
 	Renombro un par de variables para claridad.
 	Agrego gráfico de Stance. Faltan detalles, pero está la base.
 	Más detalles, quedan solo arreglos estéticos.
+	Agrego gráfico de age.
 
 26/10
 	Agregué ejercicio 7.
