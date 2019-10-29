@@ -197,10 +197,8 @@ rm(count_list)
 # siguientes puntos.
 categorias2 = list()
 for(i in 1:length(cat)){
-  w = dplyr::filter(dataUFCFinal,  weight_class == cat[i])
-  categorias2[[i]] = w
+  categorias2[[i]] <- dplyr::filter(dataUFCFinal,  weight_class == cat[i])
 }
-rm(w)
 
 Middleweight = categorias2[[7]]
 
