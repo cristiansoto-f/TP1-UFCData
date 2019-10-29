@@ -1,4 +1,6 @@
 ﻿Actualizaciones TP.
+29/10
+	Simplificado el código del ejercicio 8 y completo.
 26/10
 	Agregué ejercicio 7.
 	Consideraciones: El histograma del tiempo de pelea muestra un valor sumamente alto en cierto punto, que todavía no 
