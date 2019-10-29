@@ -3,11 +3,13 @@
 #install.packages("moments")
 #install.packages("ggplot2")
 #install.packages("dplyr")
+#install.packages("stringi")
 library(data.table)
 library(stringr)
 library(moments)
 library(ggplot2)
 library(dplyr)
+library(stringi)
 
 # 1. Importar el dataset, guardarlo en un objeto bidimensional (puede ser un data.frame, data.table, tibble, etc.)
 dataUFC = fread(file.choose(), fill = T, header = T, sep = ",")
@@ -194,8 +196,7 @@ rm(count_list)
 # pertenecientes a dicha categoría. Estos datos van a ser la base a partir de la cual se va a trabajar en los
 # siguientes puntos.
 categorias2 = list()
-for(i in 1:length(cat))
-{
+for(i in 1:length(cat)){
   w = dplyr::filter(dataUFCFinal,  weight_class == cat[i])
   categorias2[[i]] = w
 }
