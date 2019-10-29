@@ -165,13 +165,14 @@ rm(histogram_list)
 categorias<-data.frame(dataUFC$weight_class,year(dataUFC$date))
 names(categorias)=c("peso","año")
 ggplot(data=categorias, aes(x=peso,fill= as.factor(año)))  + geom_bar() 
+rm(categorias)
 
 #PDF con el numero de encuentros por año para cada categoría
-cat = stri_unique(dataUFC[["weight_class"]])
+nombresCategorias = stri_unique(dataUFC[["weight_class"]])
 count_list = list()
-for(i in 1:length(cat))
+for(i in 1:length(nombresCategorias))
 {
-  weight.class = dataUFC[, .(weight_class == cat[i], year(dataUFC$date))]
+  weight.class = dataUFC[, .(weight_class == nombresCategorias[i], year(dataUFC$date))]
   tab_sum = weight.class %>% group_by(V2) %>%
     filter(V1) %>%
     summarise(trues = n())
@@ -179,32 +180,36 @@ for(i in 1:length(cat))
   p = ggplot(tab_sum, aes(V2, trues)) + 
     geom_line() +
     geom_point(size = 2, color = "red") +
-    labs(x = "Año", y="Cantidad de Peleas", title = sprintf("Categoria: %s", cat[i]))
+    labs(x = "Año", y="Cantidad de Peleas", title = sprintf("Categoria: %s", nombresCategorias[i]))
   count_list[[i]] = p
 }
 
 pdf("cantidadpeleas.pdf")
-for(i in 1:length(cat)){
+for(i in 1:length(nombresCategorias)){
     print(count_list[[i]])
 }
 dev.off()
 rm(p)
 rm(count_list)
+
 # 9. Crear una lista de data.frames (u otro tipo de array de datos) donde cada elemento de la lista sea
 # un subset del los datos el cual contenga la info relacionada a cada una de las distintas categorías de
 # peso. Elegir una de las categorías de peso y crear un nuevo dataset el cual solo contenga los datos
 # pertenecientes a dicha categoría. Estos datos van a ser la base a partir de la cual se va a trabajar en los
 # siguientes puntos.
-categorias2 = list()
-for(i in 1:length(cat)){
-  categorias2[[i]] <- dplyr::filter(dataUFCFinal,  weight_class == cat[i])
+dataCategorias <- list()
+for(i in 1:length(nombresCategorias)){
+  dataCategorias[[i]] <- dplyr::filter(dataUFCFinal,  weight_class == nombresCategorias[i])
 }
+names(dataCategorias) <- nombresCategorias
 
-Middleweight = categorias2[[7]]
+dataMiddleweight <- dataCategorias[["Middleweight"]]
 
 # 10. Graficar la distribución, separando los casos que ganaron de los que perdieron (puede ser en 2 gráficos
 # separados o dentro del mismo gráfico utilizando colores distintos, o de cualquier forma en la que se
 # pueda discriminar los casos que ganaron de los que no) de un mínimo de 4 las siguientes variables :
+
+
 
 # 11. Discretizar las variables countinuas del punto anterior, el criterio para definir los intervalos es libre.
 
