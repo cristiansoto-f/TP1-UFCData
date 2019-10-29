@@ -209,7 +209,8 @@ dataMiddleweight <- dataCategorias[["Middleweight"]]
 # separados o dentro del mismo gráfico utilizando colores distintos, o de cualquier forma en la que se
 # pueda discriminar los casos que ganaron de los que no) de un mínimo de 4 las siguientes variables :
 
-
+ggplot(dplyr::filter(dataMiddleweight,  Stance != ""), aes(x = Stance, fill= Winner)) + geom_bar(position=position_dodge()) +
+  theme_minimal()
 
 # 11. Discretizar las variables countinuas del punto anterior, el criterio para definir los intervalos es libre.
 
