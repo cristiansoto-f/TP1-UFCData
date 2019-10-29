@@ -11,6 +11,7 @@
 	Agrego gráfico de Stance. Faltan detalles, pero está la base.
 	Más detalles, quedan solo arreglos estéticos.
 	Agrego gráfico de age.
+	Modifico los gráficos para ser más acordes a la consigna.
 
 26/10
 	Agregué ejercicio 7.
