@@ -9,7 +9,7 @@ library(stringr)
 library(moments)
 library(ggplot2)
 library(dplyr)
-#library(stringi)
+library(stringi)
 
 # 1. Importar el dataset, guardarlo en un objeto bidimensional (puede ser un data.frame, data.table, tibble, etc.)
 dataUFC = fread(file.choose(), fill = T, header = T, sep = ",")
@@ -167,7 +167,7 @@ names(categorias)=c("peso","año")
 ggplot(data=categorias, aes(x=peso,fill= as.factor(año)))  + geom_bar() 
 
 #PDF con el numero de encuentros por año para cada categoría
-cat = c("Women's Strawweight", "Women's Flyweight", "Women's Featherweight", "Women's Bantamweight", "Welterweight", "Open Weight", "Middleweight", "Lightweight", "Light Heavyweight", "Heavyweight", "Flyweight", "Featherweight", "Catch Weight", "Bantamweight")
+cat = stri_unique(dataUFC[["weight_class"]])
 count_list = list()
 for(i in 1:length(cat))
 {
