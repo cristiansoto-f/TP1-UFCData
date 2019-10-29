@@ -219,6 +219,16 @@ ggplot(dplyr::filter(dataMiddleweight,  !is.na(age)), aes(x = age, fill= Winner,
   scale_fill_discrete(name = "Result", labels = c("Victories","Defeats")) +
   geom_text(stat='count', aes(label=..count..), vjust=0,  position = position_stack(0.5))
 
+ggplot(dplyr::filter(dataMiddleweight,  !is.na(wins)), aes(x = wins, fill= Winner, show.legend = T)) + 
+  geom_bar(position = "stack") + theme_minimal() + labs(fill = "Result", y = "Count", x = "Wins") +
+  scale_fill_discrete(name = "Result", labels = c("Victories","Defeats")) +
+  geom_text(stat='count', aes(label=..count..), vjust=0,  position = position_stack(0.5))
+
+ggplot(dplyr::filter(dataMiddleweight,  !is.na(losses)), aes(x = losses, fill= Winner, show.legend = T)) + 
+  geom_bar(position = "stack") + theme_minimal() + labs(fill = "Result", y = "Count", x = "Losses") +
+  scale_fill_discrete(name = "Result", labels = c("Victories","Defeats")) +
+  geom_text(stat='count', aes(label=..count..), vjust=0,  position = position_stack(0.5))
+
 # 11. Discretizar las variables countinuas del punto anterior, el criterio para definir los intervalos es libre.
 
 # 12. Crear un nuevo dataset el cual va a estar compuesto por la variable que indica si se gano o no el
