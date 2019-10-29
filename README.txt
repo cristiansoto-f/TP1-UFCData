@@ -4,6 +4,8 @@
 	Agregado el ejercicio 9 y elegida la categoria de peso medio, ya que es la que dispone de más información.
 
 	Agrego librería para probar un par de cosas y simplificar.
+	Cambio un poco el acceso al data table para los histogramas (en vez de el número de columna, busca el nombre de variable).	
+
 26/10
 	Agregué ejercicio 7.
 	Consideraciones: El histograma del tiempo de pelea muestra un valor sumamente alto en cierto punto, que todavía no 
