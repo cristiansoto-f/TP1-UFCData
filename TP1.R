@@ -278,9 +278,10 @@ for (i in 1:nrow(dataMiddleweight)) {
 rm(mean)
 rm(sd)
 
-
 # 12. Crear un nuevo dataset el cual va a estar compuesto por la variable que indica si se gano o no el
 # encuentro y las variables del punto anterior.
+dataDiscretizada <- data.frame(dataMiddleweight[,"Winner"], dataMiddleweight[,"Height_cms"],
+                               dataMiddleweight[,"Reach_cms"], dataMiddleweight[,"Weight_lbs"])
 
 # 13. Transformar las variables del dataset del punto anterior, exepto la que indica si se ganó o perdió, en
 # variables dummy (también conocido como one-hot-encoding) en el que para cada nivel de la variable
