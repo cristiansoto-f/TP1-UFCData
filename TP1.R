@@ -5,6 +5,7 @@
 #install.packages("dplyr")
 #install.packages("stringi")
 #install.packages("gridExtra")
+#install.packages("tibble")
 library(data.table)
 library(stringr)
 library(moments)
@@ -12,6 +13,7 @@ library(ggplot2)
 library(dplyr)
 library(stringi)
 library(gridExtra)
+library(tibble)
 
 # 1. Importar el dataset, guardarlo en un objeto bidimensional (puede ser un data.frame, data.table, tibble, etc.)
 dataUFC = fread(file.choose(), fill = T, header = T, sep = ",")
@@ -204,6 +206,7 @@ names(dataCategorias) <- nombresCategorias
 
 dataMiddleweight <- dataCategorias[["Middleweight"]]
 rm(dataCategorias)
+rm(nombresCategorias)
 
 # 10. Graficar la distribución, separando los casos que ganaron de los que perdieron (puede ser en 2 gráficos
 # separados o dentro del mismo gráfico utilizando colores distintos, o de cualquier forma en la que se
@@ -280,13 +283,37 @@ rm(sd)
 
 # 12. Crear un nuevo dataset el cual va a estar compuesto por la variable que indica si se gano o no el
 # encuentro y las variables del punto anterior.
-dataDiscretizada <- data.frame(dataMiddleweight[,"Winner"], dataMiddleweight[,"Height_cms"],
+dataDiscretizada <- data.frame(dataMiddleweight["Winner"], dataMiddleweight[,"Height_cms"],
                                dataMiddleweight[,"Reach_cms"], dataMiddleweight[,"Weight_lbs"])
+colnames(dataDiscretizada) <- c("Winner","Height", "Reach", "Weight")
 
 # 13. Transformar las variables del dataset del punto anterior, exepto la que indica si se ganó o perdió, en
 # variables dummy (también conocido como one-hot-encoding) en el que para cada nivel de la variable
 # se genera una columna la cual indica fila por fila si la variable toma un valor perteneciente a esa
 # subcategoría o nivel.
+for (i in 1:nrow(dataDiscretizada)) {
+  dataDiscretizada[i,"hiHeight"] <- dataDiscretizada[i,"Height"] == "High"
+  dataDiscretizada[i,"medHeight"] <- dataDiscretizada[i,"Height"] == "Medium"
+  dataDiscretizada[i,"loHeight"] <- dataDiscretizada[i,"Height"] == "Low"
+}
+
+dataDiscretizada[,"Height"] <- NULL
+
+for (i in 1:nrow(dataDiscretizada)) {
+  dataDiscretizada[i,"hiReach"] <- dataDiscretizada[i,"Reach"] == "High"
+  dataDiscretizada[i,"medReach"] <- dataDiscretizada[i,"Reach"] == "Medium"
+  dataDiscretizada[i,"loReach"] <- dataDiscretizada[i,"Reach"] == "Low"
+}
+
+dataDiscretizada[,"Reach"] <- NULL
+
+for (i in 1:nrow(dataDiscretizada)) {
+  dataDiscretizada[i,"hiWeight"] <- dataDiscretizada[i,"Weight"] == "High"
+  dataDiscretizada[i,"medWeight"] <- dataDiscretizada[i,"Weight"] == "Medium"
+  dataDiscretizada[i,"loWeight"] <- dataDiscretizada[i,"Weight"] == "Low"
+}
+
+dataDiscretizada[,"Weight"] <- NULL
 
 # 14. Con estos nuevos datos (previamente dividiéndolos en una población de entrenamiento y una poblción
 # de validación), estimar la probabilidad de ganar el encuentro. Se sugiere utilizar una regresión logística,
