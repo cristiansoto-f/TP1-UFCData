@@ -3,6 +3,7 @@
 	Discretizadas las 3 variables continuas.
 	Armado el dataset del punto 12.
 	Armado el one-hot encoding.
+	Trnasformé los booelanos en 1 y 0.
 
 29/10
 	Simplificado el código del ejercicio 8 y completo.
