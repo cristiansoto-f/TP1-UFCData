@@ -4,6 +4,8 @@
 	Armado el dataset del punto 12.
 	Armado el one-hot encoding.
 	Trnasformé los booelanos en 1 y 0.
+	Agrego un modelo. Falta dividir la población en entrenamiento y predicción. Además, por una cuestión de tamaño de muestra, son muchas variables a tener en cuenta, no
+	quedan muy significativos los coeficientes.
 
 29/10
 	Simplificado el código del ejercicio 8 y completo.
