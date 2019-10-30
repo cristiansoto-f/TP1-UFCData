@@ -1,6 +1,7 @@
 ﻿Actualizaciones TP.
 30/10
 	Discretizadas las 3 variables continuas.
+	Armado el dataset del punto 12.
 
 29/10
 	Simplificado el código del ejercicio 8 y completo.
