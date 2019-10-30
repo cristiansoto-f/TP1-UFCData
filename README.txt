@@ -1,6 +1,6 @@
 ﻿Actualizaciones TP.
 30/10
-	Discretizada las alturas.
+	Discretizadas las 3 variables continuas.
 
 29/10
 	Simplificado el código del ejercicio 8 y completo.
