@@ -1,4 +1,7 @@
 ﻿Actualizaciones TP.
+30/10
+	Discretizada las alturas.
+
 29/10
 	Simplificado el código del ejercicio 8 y completo.
 	Agregado el ejercicio 9 y elegida la categoria de peso medio, ya que es la que dispone de más información.
