@@ -235,7 +235,6 @@ ggplot(dplyr::filter(dataMiddleweight,  !is.na(losses)), aes(x = losses, fill= W
 # Variables continuas: Height_cms, Reach_cms, Weight_lbs.
 mean <- mean(dataMiddleweight[,"Height_cms"], na.rm = T)
 sd <- sd(dataMiddleweight[,"Height_cms"], na.rm=T)
-
 for (i in 1:nrow(dataMiddleweight)) {
   if (!is.na(dataMiddleweight[i,"Height_cms"])) {
    if(dataMiddleweight[i,"Height_cms"] >= mean + sd) {
@@ -247,6 +246,37 @@ for (i in 1:nrow(dataMiddleweight)) {
     }
   }
 }
+
+mean <- mean(dataMiddleweight[,"Reach_cms"], na.rm = T)
+sd <- sd(dataMiddleweight[,"Reach_cms"], na.rm=T)
+for (i in 1:nrow(dataMiddleweight)) {
+  if (!is.na(dataMiddleweight[i,"Reach_cms"])) {
+    if(dataMiddleweight[i,"Reach_cms"] >= mean + sd) {
+      dataMiddleweight[i,"Reach_cms"] <- "High"
+    } else {
+      if(dataMiddleweight[i,"Reach_cms"] <= mean - sd) {
+        dataMiddleweight[i,"Reach_cms"] <- "Low"
+      } else {dataMiddleweight[i,"Reach_cms"] <- "Medium" }
+    }
+  }
+}
+
+mean <- mean(dataMiddleweight[,"Weight_lbs"], na.rm = T)
+sd <- sd(dataMiddleweight[,"Weight_lbs"], na.rm=T)
+for (i in 1:nrow(dataMiddleweight)) {
+  if (!is.na(dataMiddleweight[i,"Weight_lbs"])) {
+    if(dataMiddleweight[i,"Weight_lbs"] >= mean + sd) {
+      dataMiddleweight[i,"Weight_lbs"] <- "High"
+    } else {
+      if(dataMiddleweight[i,"Weight_lbs"] <= mean - sd) {
+        dataMiddleweight[i,"Weight_lbs"] <- "Low"
+      } else {dataMiddleweight[i,"Weight_lbs"] <- "Medium" }
+    }
+  }
+}
+
+rm(mean)
+rm(sd)
 
 
 # 12. Crear un nuevo dataset el cual va a estar compuesto por la variable que indica si se gano o no el
