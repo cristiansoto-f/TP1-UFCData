@@ -105,11 +105,6 @@ for(i in 1:ncol(dataUFCFinal)){
 # Histogramas más importantes 
 
 #Edad
-#ggplot(data=dataUFCFinal, aes(dataUFCFinal[[76]])) + 
-#  geom_histogram(color = "black", fill = "palegreen1", bins = 33, na.rm = T) +
-#  labs(x = "Edad", y="Cantidad", title = "Histograma edad") +
-#  xlim(c(18,51))
-
 ggplot(data=dataUFCFinal, aes(dataUFCFinal[["age"]])) + 
   geom_histogram(bins = 33, na.rm = T, aes(fill=..count..)) +
   labs(x = "Edad", y="Cantidad", title = "Histograma edad") +
@@ -193,6 +188,8 @@ for(i in 1:length(nombresCategorias)){
 dev.off()
 rm(p)
 rm(count_list)
+rm(tab_sum)
+rm (weight.class)
 
 # 9. Crear una lista de data.frames (u otro tipo de array de datos) donde cada elemento de la lista sea
 # un subset del los datos el cual contenga la info relacionada a cada una de las distintas categorías de
@@ -206,6 +203,7 @@ for(i in 1:length(nombresCategorias)){
 names(dataCategorias) <- nombresCategorias
 
 dataMiddleweight <- dataCategorias[["Middleweight"]]
+rm(dataCategorias)
 
 # 10. Graficar la distribución, separando los casos que ganaron de los que perdieron (puede ser en 2 gráficos
 # separados o dentro del mismo gráfico utilizando colores distintos, o de cualquier forma en la que se
@@ -229,10 +227,27 @@ ggplot(dplyr::filter(dataMiddleweight,  !is.na(wins)), aes(x = wins, fill= Winne
 ggplot(dplyr::filter(dataMiddleweight,  !is.na(losses)), aes(x = losses, fill= Winner, show.legend = T)) + 
   geom_bar(position = "stack") + theme_minimal() + labs(fill = "Result", y = "Count", x = "Losses") +
   scale_fill_discrete(name = "Result", labels = c("Victories","Defeats")) +
-  geom_text(stat='count', aes(label=..count..), vjust=0,  position = position_stack(0.5)))
+  geom_text(stat='count', aes(label=..count..), vjust=0,  position = position_stack(0.5))
+
+)
 
 # 11. Discretizar las variables countinuas del punto anterior, el criterio para definir los intervalos es libre.
 # Variables continuas: Height_cms, Reach_cms, Weight_lbs.
+mean <- mean(dataMiddleweight[,"Height_cms"], na.rm = T)
+sd <- sd(dataMiddleweight[,"Height_cms"], na.rm=T)
+
+for (i in 1:nrow(dataMiddleweight)) {
+  if (!is.na(dataMiddleweight[i,"Height_cms"])) {
+   if(dataMiddleweight[i,"Height_cms"] >= mean + sd) {
+     dataMiddleweight[i,"Height_cms"] <- "High"
+    } else {
+      if(dataMiddleweight[i,"Height_cms"] <= mean - sd) {
+      dataMiddleweight[i,"Height_cms"] <- "Low"
+      } else {dataMiddleweight[i,"Height_cms"] <- "Medium" }
+    }
+  }
+}
+
 
 # 12. Crear un nuevo dataset el cual va a estar compuesto por la variable que indica si se gano o no el
 # encuentro y las variables del punto anterior.
