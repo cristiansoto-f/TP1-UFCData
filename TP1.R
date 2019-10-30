@@ -47,8 +47,8 @@ colnames(redFighter) <- str_remove_all(colnames(redFighter),"^R_")
 # Winner toma el valor de Red, entonces la nueva variable tendria que tomar el valor 0
 
 for(i in 1:nrow(redFighter)){
-  redFighter[i,"Winner"] <- (dataUFC[i,"Winner"] == "Red")
-  blueFighter[i,"Winner"] <- (dataUFC[i,"Winner"] == "Blue")
+  redFighter[i,"Winner"] <- as.numeric(dataUFC[i,"Winner"] == "Red")
+  blueFighter[i,"Winner"] <- as.numeric(dataUFC[i,"Winner"] == "Blue")
 }
 
 # c) Crear una variable que haga referencia al color de la esquina de cada dataset.
@@ -292,25 +292,25 @@ colnames(dataDiscretizada) <- c("Winner","Height", "Reach", "Weight")
 # se genera una columna la cual indica fila por fila si la variable toma un valor perteneciente a esa
 # subcategoría o nivel.
 for (i in 1:nrow(dataDiscretizada)) {
-  dataDiscretizada[i,"hiHeight"] <- dataDiscretizada[i,"Height"] == "High"
-  dataDiscretizada[i,"medHeight"] <- dataDiscretizada[i,"Height"] == "Medium"
-  dataDiscretizada[i,"loHeight"] <- dataDiscretizada[i,"Height"] == "Low"
+  dataDiscretizada[i,"Height_hi"] <- as.numeric(dataDiscretizada[i,"Height"] == "High")
+  dataDiscretizada[i,"Height_med"] <- as.numeric(dataDiscretizada[i,"Height"] == "Medium")
+  dataDiscretizada[i,"Height_lo"] <- as.numeric(dataDiscretizada[i,"Height"] == "Low")
 }
 
 dataDiscretizada[,"Height"] <- NULL
 
 for (i in 1:nrow(dataDiscretizada)) {
-  dataDiscretizada[i,"hiReach"] <- dataDiscretizada[i,"Reach"] == "High"
-  dataDiscretizada[i,"medReach"] <- dataDiscretizada[i,"Reach"] == "Medium"
-  dataDiscretizada[i,"loReach"] <- dataDiscretizada[i,"Reach"] == "Low"
+  dataDiscretizada[i,"Reach_hi"] <- as.numeric(dataDiscretizada[i,"Reach"] == "High")
+  dataDiscretizada[i,"Reach_med"] <- as.numeric(dataDiscretizada[i,"Reach"] == "Medium")
+  dataDiscretizada[i,"Reach_lo"] <- as.numeric(dataDiscretizada[i,"Reach"] == "Low")
 }
 
 dataDiscretizada[,"Reach"] <- NULL
 
 for (i in 1:nrow(dataDiscretizada)) {
-  dataDiscretizada[i,"hiWeight"] <- dataDiscretizada[i,"Weight"] == "High"
-  dataDiscretizada[i,"medWeight"] <- dataDiscretizada[i,"Weight"] == "Medium"
-  dataDiscretizada[i,"loWeight"] <- dataDiscretizada[i,"Weight"] == "Low"
+  dataDiscretizada[i,"Weight_hi"] <- as.numeric(dataDiscretizada[i,"Weight"] == "High")
+  dataDiscretizada[i,"Weight_med"] <- as.numeric(dataDiscretizada[i,"Weight"] == "Medium")
+  dataDiscretizada[i,"Weight_lo"] <- as.numeric(dataDiscretizada[i,"Weight"] == "Low")
 }
 
 dataDiscretizada[,"Weight"] <- NULL
@@ -320,5 +320,6 @@ dataDiscretizada[,"Weight"] <- NULL
 # pero se puede utilizar otro tipo de modelos siempre y cuando se comente el motivo detrás de su elección.
 # Aclaración: el número de variables regresoras a utlizar es de libre criterio, y si se desease utilizar
 # variables que no se encuentren dentro de las listadas, se puede hacer.
+
 
 # 15. Analizar y comentar sobre los resultados obtenidos en el punto 14.
