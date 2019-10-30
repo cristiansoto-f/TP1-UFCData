@@ -283,7 +283,7 @@ rm(sd)
 
 # 12. Crear un nuevo dataset el cual va a estar compuesto por la variable que indica si se gano o no el
 # encuentro y las variables del punto anterior.
-dataDiscretizada <- data.frame(dataMiddleweight["Winner"], dataMiddleweight[,"Height_cms"],
+dataDiscretizada <- data.frame(integer(length = nrow(dataMiddleweight)), dataMiddleweight[,"Height_cms"],
                                dataMiddleweight[,"Reach_cms"], dataMiddleweight[,"Weight_lbs"])
 colnames(dataDiscretizada) <- c("Winner","Height", "Reach", "Weight")
 
@@ -315,11 +315,20 @@ for (i in 1:nrow(dataDiscretizada)) {
 
 dataDiscretizada[,"Weight"] <- NULL
 
+for (i in 1:nrow(dataDiscretizada)) {
+  if (dataMiddleweight[i,"Winner"]) {dataDiscretizada[i,"Winner"] <- 1}
+    else {dataDiscretizada[i,"Winner"] <- 0}
+}
+
 # 14. Con estos nuevos datos (previamente dividiéndolos en una población de entrenamiento y una poblción
 # de validación), estimar la probabilidad de ganar el encuentro. Se sugiere utilizar una regresión logística,
 # pero se puede utilizar otro tipo de modelos siempre y cuando se comente el motivo detrás de su elección.
 # Aclaración: el número de variables regresoras a utlizar es de libre criterio, y si se desease utilizar
 # variables que no se encuentren dentro de las listadas, se puede hacer.
 
-
+modeloRegresion <- glm(Winner ~ (Height_hi+Weight_hi+Reach_hi)^3 + (Height_hi+Weight_hi+Reach_lo)^3 +
+                         (Height_hi+Weight_lo+Reach_lo)^3 + (Height_hi+Weight_lo+Reach_hi)^3 + (Height_lo+Weight_hi+Reach_hi)^3 +
+                         (Height_lo+Weight_lo+Reach_hi)^3 + (Height_lo+Weight_hi+Reach_lo)^3 + (Height_lo+Weight_lo+Reach_lo)^3
+                         , family = binomial, data = dataDiscretizada)
+summary(modeloRegresion)
 # 15. Analizar y comentar sobre los resultados obtenidos en el punto 14.
