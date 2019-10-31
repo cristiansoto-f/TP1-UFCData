@@ -331,4 +331,12 @@ modeloRegresion <- glm(Winner ~ (Height_hi+Weight_hi+Reach_hi)^3 + (Height_hi+We
                          (Height_lo+Weight_lo+Reach_hi)^3 + (Height_lo+Weight_hi+Reach_lo)^3 + (Height_lo+Weight_lo+Reach_lo)^3
                          , family = binomial, data = dataDiscretizada)
 summary(modeloRegresion)
+
+dataDiscretizada$Winner<- factor(dataDiscretizada$Winner)
+train <- sample(x = 1:1450, 725)
+modeloRegresion <- glm(Winner ~ (Height_hi+Weight_hi+Reach_hi)^3 + (Height_hi+Weight_hi+Reach_lo)^3 +
+                         (Height_hi+Weight_lo+Reach_lo)^3 + (Height_hi+Weight_lo+Reach_hi)^3 + (Height_lo+Weight_hi+Reach_hi)^3 +
+                         (Height_lo+Weight_lo+Reach_hi)^3 + (Height_lo+Weight_hi+Reach_lo)^3 + (Height_lo+Weight_lo+Reach_lo)^3
+                         , family = binomial, data = dataDiscretizada,subset=train)
+summary(modeloRegresion)
 # 15. Analizar y comentar sobre los resultados obtenidos en el punto 14.
