@@ -14,6 +14,9 @@ library(dplyr)
 library(stringi)
 library(gridExtra)
 library(tibble)
+library(caret)
+library(caTools)
+library(e1071)
 
 # 1. Importar el dataset, guardarlo en un objeto bidimensional (puede ser un data.frame, data.table, tibble, etc.)
 dataUFC = fread(file.choose(), fill = T, header = T, sep = ",")
@@ -324,19 +327,12 @@ for (i in 1:nrow(dataDiscretizada)) {
 # pero se puede utilizar otro tipo de modelos siempre y cuando se comente el motivo detrás de su elección.
 # Aclaración: el número de variables regresoras a utlizar es de libre criterio, y si se desease utilizar
 # variables que no se encuentren dentro de las listadas, se puede hacer.
+set.seed(6)
+setControl <- trainControl( method ="cv", number = nrow(dataDiscretizada)/10, verboseIter = FALSE)
 
-modeloRegresion <- glm(as.numeric(Winner) ~ (Height_hi+Weight_hi)^2 + (Height_hi+Reach_lo)^2 +
-                         (Height_hi+Weight_lo)^2 + (Height_hi+Reach_hi)^2 + (Height_lo+Weight_hi)^2 +
-                         (Height_lo+Reach_hi)^3 + (Height_lo+Weight_hi)^2 + (Height_lo+Weight_lo)^2
-                         , family = binomial, data = dataDiscretizada)
-summary(modeloRegresion)
-
-train <- sample(x = 1:1450, 725)
-modeloRegresion <- glm(as.numeric(Winner) ~ (Height_hi+Weight_hi+Reach_hi)^3 + (Height_hi+Weight_hi+Reach_lo)^3 +
-                         (Height_hi+Weight_lo+Reach_lo)^3 + (Height_hi+Weight_lo+Reach_hi)^3 + (Height_lo+Weight_hi+Reach_hi)^3 +
-                         (Height_lo+Weight_lo+Reach_hi)^3 + (Height_lo+Weight_hi+Reach_lo)^3 + (Height_lo+Weight_lo+Reach_lo)^3
-                         , family = binomial, data = dataDiscretizada,subset=train)
-summary(modeloRegresion)
-predicciones <- predict(object = modeloRegresion, newdata = dataDiscretizada[-train, ],type = "response")
+modelo <- train(Winner ~ (Height_hi+Weight_hi)^2 + (Height_hi+Reach_lo)^2 +
+                  (Height_hi+Weight_lo)^2 + (Height_hi+Reach_hi)^2 + (Height_lo+Weight_hi)^2 +
+                  (Height_lo+Reach_hi)^2 + (Height_lo+Weight_hi)^2 + (Height_lo+Weight_lo)^2,
+                dataDiscretizada, method = "glm", trControl = setControl, na.action=na.omit)
 
 # 15. Analizar y comentar sobre los resultados obtenidos en el punto 14.
