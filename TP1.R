@@ -325,9 +325,9 @@ for (i in 1:nrow(dataDiscretizada)) {
 # Aclaración: el número de variables regresoras a utlizar es de libre criterio, y si se desease utilizar
 # variables que no se encuentren dentro de las listadas, se puede hacer.
 
-modeloRegresion <- glm(as.numeric(Winner) ~ (Height_hi+Weight_hi+Reach_hi)^3 + (Height_hi+Weight_hi+Reach_lo)^3 +
-                         (Height_hi+Weight_lo+Reach_lo)^3 + (Height_hi+Weight_lo+Reach_hi)^3 + (Height_lo+Weight_hi+Reach_hi)^3 +
-                         (Height_lo+Weight_lo+Reach_hi)^3 + (Height_lo+Weight_hi+Reach_lo)^3 + (Height_lo+Weight_lo+Reach_lo)^3
+modeloRegresion <- glm(as.numeric(Winner) ~ (Height_hi+Weight_hi)^2 + (Height_hi+Reach_lo)^2 +
+                         (Height_hi+Weight_lo)^2 + (Height_hi+Reach_hi)^2 + (Height_lo+Weight_hi)^2 +
+                         (Height_lo+Reach_hi)^3 + (Height_lo+Weight_hi)^2 + (Height_lo+Weight_lo)^2
                          , family = binomial, data = dataDiscretizada)
 summary(modeloRegresion)
 
