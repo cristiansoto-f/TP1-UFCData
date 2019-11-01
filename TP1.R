@@ -316,8 +316,7 @@ for (i in 1:nrow(dataDiscretizada)) {
 dataDiscretizada[,"Weight"] <- NULL
 
 for (i in 1:nrow(dataDiscretizada)) {
-  if (dataMiddleweight[i,"Winner"]) {dataDiscretizada[i,"Winner"] <- 1}
-    else {dataDiscretizada[i,"Winner"] <- 0}
+ dataDiscretizada[,"Winner"] <- dataMiddleweight[,"Winner"]
 }
 
 # 14. Con estos nuevos datos (previamente dividiéndolos en una población de entrenamiento y una poblción
