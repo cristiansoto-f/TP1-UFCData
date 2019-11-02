@@ -166,7 +166,7 @@ rm(histogram_list)
 # por el hecho de haber separado a los peleadores y unirlos en filas (punto 4)
 categorias<-data.frame(dataUFC$weight_class,year(dataUFC$date))
 names(categorias)=c("peso","año")
-ggplot(data=categorias, aes(x=peso,fill= as.factor(año)))  + geom_bar() 
+ggplot(data=categorias, aes(x=peso,fill= as.factor(año)))  + geom_bar() + theme(axis.text.x = element_text(angle = 60,hjust = 1))
 rm(categorias)
 
 #PDF con el numero de encuentros por año para cada categoría
