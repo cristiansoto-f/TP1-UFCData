@@ -336,3 +336,10 @@ modelo <- train(Winner ~ (Height_hi+Weight_hi)^2 + (Height_hi+Reach_lo)^2 +
                 dataDiscretizada, method = "glm", trControl = setControl, na.action=na.omit)
 
 # 15. Analizar y comentar sobre los resultados obtenidos en el punto 14.
+A partir de la funcion Summary se puede observar la relacion de las variables numericas utilizadas con la probabilidad de ganar el encuentro (variable dependiente) del modelo lineal generalizado. A partir de los datos utilizados, segun el p- valor de todas las variables utilizadas, la más significativas corresponden al Height_lo junto con el intercepto cuyo p- valor se encuentra entre 0.01 y 0.05. Por otro lado, la variable Hieght_hi tambien podría considerarse significativa, pero su p valor es mayor que el anterior, el cual está entre 0.05 y 0.1.
+En ambos casos de Height, la relacion con Winner es inversamente proporcional ya que sus signos son negativos.
+Tambien se puede observar las correlaciones entre las variables utilizadas, donde por ejemplo, Height_hi y Weight_hi es de 0.49959 por lo que podría decirse que por cada unidad que sube Height_hi, Weight_hi sube 0.49959 siempre y cuando las demás variables permanezcan constantes.
+El modelo estimado arroja un akaike de 1816.3 ya que recompensa la bondad de ajuste y penaliza por la cantidad de parametros utilizados, por lo que si estamimamos un modelo con mayor cantidad de parametros a utilizar y arroja un Akaike mayor no se deberia utilizar ese modelo.
+
+
+
