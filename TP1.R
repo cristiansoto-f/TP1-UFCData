@@ -17,6 +17,8 @@ library(tibble)
 library(caret)
 library(caTools)
 library(e1071)
+library(ggpubr)
+library(psych)
 
 # 1. Importar el dataset, guardarlo en un objeto bidimensional (puede ser un data.frame, data.table, tibble, etc.)
 dataUFC = fread(file.choose(), fill = T, header = T, sep = ",")
@@ -287,8 +289,9 @@ rm(sd)
 # 12. Crear un nuevo dataset el cual va a estar compuesto por la variable que indica si se gano o no el
 # encuentro y las variables del punto anterior.
 dataDiscretizada <- data.frame(integer(length = nrow(dataMiddleweight)), dataMiddleweight[,"Height_cms"],
-                               dataMiddleweight[,"Reach_cms"], dataMiddleweight[,"Weight_lbs"])
-colnames(dataDiscretizada) <- c("Winner","Height", "Reach", "Weight")
+                               dataMiddleweight[,"Reach_cms"], dataMiddleweight[,"Weight_lbs"], dataMiddleweight[,"age"],
+                               integer(length = nrow(dataMiddleweight)))
+colnames(dataDiscretizada) <- c("Winner","Height", "Reach", "Weight", "AgeSD","winPctge")
 
 # 13. Transformar las variables del dataset del punto anterior, exepto la que indica si se ganó o perdió, en
 # variables dummy (también conocido como one-hot-encoding) en el que para cada nivel de la variable
@@ -319,8 +322,14 @@ for (i in 1:nrow(dataDiscretizada)) {
 dataDiscretizada[,"Weight"] <- NULL
 
 for (i in 1:nrow(dataDiscretizada)) {
- dataDiscretizada[,"Winner"] <- dataMiddleweight[,"Winner"]
+  dataDiscretizada[i,"Winner"] <- dataMiddleweight[i,"Winner"]
+  if (dataMiddleweight[i,"wins"] + dataMiddleweight[i,"losses"] + dataMiddleweight[i,"draw"] > 0) {
+    dataDiscretizada[i,"winPctge"] <- dataMiddleweight[i,"wins"]/(dataMiddleweight[i,"wins"] + dataMiddleweight[i,"losses"] + dataMiddleweight[i,"draw"])
+  } else {dataDiscretizada[i,"winPctge"] <- 0}
+  dataDiscretizada[i,"AgeSD"] <- (dataMiddleweight[i,"age"]-mean(dataMiddleweight[,"age"], na.rm = T))/sd(dataMiddleweight[,"age"], na.rm=T)
 }
+
+
 
 # 14. Con estos nuevos datos (previamente dividiéndolos en una población de entrenamiento y una poblción
 # de validación), estimar la probabilidad de ganar el encuentro. Se sugiere utilizar una regresión logística,
@@ -328,18 +337,19 @@ for (i in 1:nrow(dataDiscretizada)) {
 # Aclaración: el número de variables regresoras a utlizar es de libre criterio, y si se desease utilizar
 # variables que no se encuentren dentro de las listadas, se puede hacer.
 set.seed(6)
-setControl <- trainControl( method ="cv", number = nrow(dataDiscretizada)/10, verboseIter = FALSE)
+setControl <- trainControl(method ="cv", number = nrow(dataDiscretizada)/10, verboseIter = FALSE)
 
-modelo <- train(Winner ~ (Height_hi+Weight_hi)^2 + (Height_hi+Reach_lo)^2 +
-                  (Height_hi+Weight_lo)^2 + (Height_hi+Reach_hi)^2 + (Height_lo+Weight_hi)^2 +
-                  (Height_lo+Reach_hi)^2 + (Height_lo+Weight_hi)^2 + (Height_lo+Weight_lo)^2,
+modelo <- train(Winner ~ winPctge + AgeSD + (Height_hi*Weight_hi*Reach_hi)^3 + (Height_hi*Weight_hi*Reach_lo)^3 +
+                  (Height_hi*Weight_lo*Reach_hi)^3 + (Height_lo*Weight_hi*Reach_hi)^3 + (Height_lo*Weight_lo*Reach_hi)^3 +
+                  (Height_lo*Weight_hi*Reach_lo)^3 + (Height_hi*Weight_lo*Reach_lo)^3 + (Height_lo*Weight_lo*Reach_lo)^3,
                 dataDiscretizada, method = "glm", trControl = setControl, na.action=na.omit)
 
+summary(modelo)
 # 15. Analizar y comentar sobre los resultados obtenidos en el punto 14.
-A partir de la funcion Summary se puede observar la relacion de las variables numericas utilizadas con la probabilidad de ganar el encuentro (variable dependiente) del modelo lineal generalizado. A partir de los datos utilizados, segun el p- valor de todas las variables utilizadas, la más significativas corresponden al Height_lo junto con el intercepto cuyo p- valor se encuentra entre 0.01 y 0.05. Por otro lado, la variable Hieght_hi tambien podría considerarse significativa, pero su p valor es mayor que el anterior, el cual está entre 0.05 y 0.1.
-En ambos casos de Height, la relacion con Winner es inversamente proporcional ya que sus signos son negativos.
-Tambien se puede observar las correlaciones entre las variables utilizadas, donde por ejemplo, Height_hi y Weight_hi es de 0.49959 por lo que podría decirse que por cada unidad que sube Height_hi, Weight_hi sube 0.49959 siempre y cuando las demás variables permanezcan constantes.
-El modelo estimado arroja un akaike de 1816.3 ya que recompensa la bondad de ajuste y penaliza por la cantidad de parametros utilizados, por lo que si estamimamos un modelo con mayor cantidad de parametros a utilizar y arroja un Akaike mayor no se deberia utilizar ese modelo.
+#A partir de la funcion Summary se puede observar la relacion de las variables numericas utilizadas con la probabilidad de ganar el encuentro (variable dependiente) del modelo lineal generalizado. A partir de los datos utilizados, segun el p- valor de todas las variables utilizadas, la más significativas corresponden al Height_lo junto con el intercepto cuyo p- valor se encuentra entre 0.01 y 0.05. Por otro lado, la variable Hieght_hi tambien podría considerarse significativa, pero su p valor es mayor que el anterior, el cual está entre 0.05 y 0.1.
+#En ambos casos de Height, la relacion con Winner es inversamente proporcional ya que sus signos son negativos. Esto hace pensar que una altura por fuera de los rangos normales (dentro de 1 desvío de la media) es contraproducente. Es coherente
+#Tambien se puede observar las correlaciones entre las variables utilizadas, donde por ejemplo, Height_hi y Weight_hi es de 0.49959 por lo que podría decirse que por cada unidad que sube Height_hi, Weight_hi sube 0.49959 siempre y cuando las demás variables permanezcan constantes.
+#El modelo estimado arroja un akaike de 1816.3 ya que recompensa la bondad de ajuste y penaliza por la cantidad de parametros utilizados, por lo que si estamimamos un modelo con mayor cantidad de parametros a utilizar y arroja un Akaike mayor no se deberia utilizar ese modelo.
 
 
 
