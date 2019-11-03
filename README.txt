@@ -1,4 +1,6 @@
 ﻿Actualizaciones TP.
+3/11
+	Agregados install.packages
 30/10
 	Discretizadas las 3 variables continuas.
 	Armado el dataset del punto 12.
