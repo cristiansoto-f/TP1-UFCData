@@ -359,7 +359,7 @@ cor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Reach_lo"])
 
 cor.test(as.numeric(dataCorrWin[,"Winner"]), dataCorrWin[,"winPctge"])
 
-cor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"AgeSD"])
+cor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"AgeDif"])
 
 
 pcor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Weight_hi"], c(dataCorr[,"Height_hi"],dataCorr[,"Height_lo"]))
@@ -391,8 +391,7 @@ pcor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Reach_med"], c(dataCorr[,"
 pcor.test(as.numeric(dataCorrWin[,"Winner"]), dataCorrWin[,"winPctge"], dataCorrWin[,"Height_lo"])
 
 
-modelo <- train(Winner ~ Height_hi + Height_lo + winPctge   
-                 + Height_lo:Reach_lo
+modelo <- train(Winner ~ Height_med + winPctge + Reach_lo
                  + AgeDif, dataDiscretizada, method = "glm", trControl = setControl, na.action=na.omit)
 
 summary(modelo)
