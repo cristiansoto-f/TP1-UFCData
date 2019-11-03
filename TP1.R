@@ -402,7 +402,7 @@ pcor.test(as.numeric(dataCorrWin[,"Winner"]), dataCorrWin[,"winPctge"], dataCorr
 
 
 modelo <- train(Winner ~ Height_hi + Height_lo + winPctge  +
-                  Weight_lo:Height_lo:Reach_lo + winPctge:Height_lo
+                  Weight_lo:Height_lo:Reach_lo
                  + AgeSD, dataDiscretizada, method = "glm", trControl = setControl, na.action=na.omit)
 
 summary(modelo)
