@@ -52,8 +52,8 @@ colnames(redFighter) <- str_remove_all(colnames(redFighter),"^R_")
 # Winner toma el valor de Red, entonces la nueva variable tendria que tomar el valor 0
 
 for(i in 1:nrow(redFighter)){
-  redFighter[i,"Winner"] <- as.numeric(dataUFC[i,"Winner"] == "Red")
-  blueFighter[i,"Winner"] <- as.numeric(dataUFC[i,"Winner"] == "Blue")
+  redFighter[i,"Winner"] <- as.numeric(as.logical(dataUFC[i,"Winner"] == "Red"))
+  blueFighter[i,"Winner"] <- as.numeric(as.logical(dataUFC[i,"Winner"] == "Blue"))
 }
 
 # c) Crear una variable que haga referencia al color de la esquina de cada dataset.
@@ -325,7 +325,7 @@ for (i in 1:nrow(dataDiscretizada)) {
   dataDiscretizada[i,"Winner"] <- dataMiddleweight[i,"Winner"]
   if (dataMiddleweight[i,"wins"] + dataMiddleweight[i,"losses"] + dataMiddleweight[i,"draw"] > 0) {
     dataDiscretizada[i,"winPctge"] <- dataMiddleweight[i,"wins"]/(dataMiddleweight[i,"wins"] + dataMiddleweight[i,"losses"] + dataMiddleweight[i,"draw"])
-  } else {dataDiscretizada[i,"winPctge"] <- 0}
+  } else {dataDiscretizada[i,"winPctge"] <- NA}
   dataDiscretizada[i,"AgeSD"] <- (dataMiddleweight[i,"age"]-mean(dataMiddleweight[,"age"], na.rm = T))/sd(dataMiddleweight[,"age"], na.rm=T)
 }
 
@@ -338,11 +338,67 @@ for (i in 1:nrow(dataDiscretizada)) {
 # variables que no se encuentren dentro de las listadas, se puede hacer.
 set.seed(6)
 setControl <- trainControl(method ="cv", number = nrow(dataDiscretizada)/10, verboseIter = FALSE)
+dataCorr <- dplyr::filter(dataDiscretizada,  !is.na(Reach_hi) + is.na(Height_hi) + is.na(Weight_hi))
+dataCorrWin <- dplyr::filter(dataCorr, !is.na(dataCorr[,"winPctge"]))
+cor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Height_hi"])
+cor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Height_med"])
+cor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Height_lo"])
 
-modelo <- train(Winner ~ winPctge + AgeSD + (Height_hi*Weight_hi*Reach_hi)^3 + (Height_hi*Weight_hi*Reach_lo)^3 +
-                  (Height_hi*Weight_lo*Reach_hi)^3 + (Height_lo*Weight_hi*Reach_hi)^3 + (Height_lo*Weight_lo*Reach_hi)^3 +
-                  (Height_lo*Weight_hi*Reach_lo)^3 + (Height_hi*Weight_lo*Reach_lo)^3 + (Height_lo*Weight_lo*Reach_lo)^3,
-                dataDiscretizada, method = "glm", trControl = setControl, na.action=na.omit)
+cor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Weight_hi"])
+cor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Weight_med"])
+cor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Weight_lo"])
+
+cor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Reach_hi"])
+cor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Reach_med"])
+cor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Reach_lo"])
+
+cor.test(as.numeric(dataCorrWin[,"Winner"]), dataCorrWin[,"winPctge"])
+
+cor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"AgeSD"])
+
+
+pcor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Weight_hi"], c(dataCorr[,"Height_hi"],dataCorr[,"Height_lo"]))
+pcor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Weight_med"], c(dataCorr[,"Height_hi"],dataCorr[,"Height_lo"]))
+pcor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Weight_lo"], c(dataCorr[,"Height_hi"],dataCorr[,"Height_lo"]))
+
+pcor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Reach_hi"], c(dataCorr[,"Height_hi"],dataCorr[,"Height_lo"]))
+pcor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Reach_med"], c(dataCorr[,"Height_hi"],dataCorr[,"Height_lo"]))
+pcor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Reach_lo"], c(dataCorr[,"Height_hi"],dataCorr[,"Height_lo"]))
+pcor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Reach_hi"], c(dataCorr[,"Weight_hi"],dataCorr[,"Weight_lo"]))
+pcor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Reach_med"], c(dataCorr[,"Weight_hi"],dataCorr[,"Weight_lo"]))
+pcor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Reach_lo"], c(dataCorr[,"Weight_hi"],dataCorr[,"Weight_lo"]))
+
+pcor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Weight_hi"], c(dataCorr[,"Reach_hi"],dataCorr[,"Reach_lo"],
+                                                                     dataCorr[,"Height_hi"],dataCorr[,"Height_lo"]))
+pcor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Weight_lo"], c(dataCorr[,"Reach_hi"],dataCorr[,"Reach_lo"],
+                                                                     dataCorr[,"Height_hi"],dataCorr[,"Height_lo"]))
+pcor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Weight_med"], c(dataCorr[,"Reach_hi"],dataCorr[,"Reach_lo"],
+                                                                      dataCorr[,"Height_hi"],dataCorr[,"Height_lo"]))
+
+pcor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Reach_hi"], c(dataCorr[,"Weight_hi"],dataCorr[,"Weight_lo"],
+                                                                    dataCorr[,"Height_hi"],dataCorr[,"Height_lo"]))
+pcor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Reach_lo"], c(dataCorr[,"Weight_hi"],dataCorr[,"Weight_lo"],
+                                                                    dataCorr[,"Height_hi"],dataCorr[,"Height_lo"]))
+pcor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Reach_med"], c(dataCorr[,"Weight_hi"],dataCorr[,"Weight_lo"],
+                                                                     dataCorr[,"Height_hi"],dataCorr[,"Height_lo"]))
+
+pcor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Height_hi"], c(dataCorr[,"Reach_hi"],dataCorr[,"Reach_lo"],
+                                                                     dataCorr[,"Weight_hi"],dataCorr[,"Weight_lo"]))
+pcor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Height_lo"], c(dataCorr[,"Reach_hi"],dataCorr[,"Reach_lo"],
+                                                                     dataCorr[,"Weight_hi"],dataCorr[,"Weight_lo"]))
+pcor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Height_med"], c(dataCorr[,"Reach_hi"],dataCorr[,"Reach_lo"],
+                                                                      dataCorr[,"Weight_hi"],dataCorr[,"Weight_lo"]))
+
+
+pcor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Reach_med"], c(dataCorr[,"Weight_hi"],dataCorr[,"Height_lo"], 
+                                                                     dataCorr[,"Weight_lo"]))
+
+pcor.test(as.numeric(dataCorrWin[,"Winner"]), dataCorrWin[,"winPctge"], dataCorrWin[,"Height_lo"])
+
+
+modelo <- train(Winner ~ Height_hi + Height_lo + winPctge  +
+                  Weight_lo:Height_lo:Reach_lo + winPctge:Height_lo
+                 + AgeSD, dataDiscretizada, method = "glm", trControl = setControl, na.action=na.omit)
 
 summary(modelo)
 # 15. Analizar y comentar sobre los resultados obtenidos en el punto 14.
