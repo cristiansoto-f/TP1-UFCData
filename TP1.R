@@ -296,7 +296,7 @@ rm(sd)
 dataDiscretizada <- data.frame(integer(length = nrow(dataMiddleweight)), dataMiddleweight[,"Height_cms"],
                                dataMiddleweight[,"Reach_cms"], dataMiddleweight[,"Weight_lbs"], dataMiddleweight[,"age"],
                                integer(length = nrow(dataMiddleweight)))
-colnames(dataDiscretizada) <- c("Winner","Height", "Reach", "Weight", "AgeSD","winPctge")
+colnames(dataDiscretizada) <- c("Winner","Height", "Reach", "Weight", "AgeDif","winPctge")
 
 # 13. Transformar las variables del dataset del punto anterior, exepto la que indica si se ganó o perdió, en
 # variables dummy (también conocido como one-hot-encoding) en el que para cada nivel de la variable
@@ -331,7 +331,7 @@ for (i in 1:nrow(dataDiscretizada)) {
   if (dataMiddleweight[i,"wins"] + dataMiddleweight[i,"losses"] + dataMiddleweight[i,"draw"] > 0) {
     dataDiscretizada[i,"winPctge"] <- dataMiddleweight[i,"wins"]/(dataMiddleweight[i,"wins"] + dataMiddleweight[i,"losses"] + dataMiddleweight[i,"draw"])
   } else {dataDiscretizada[i,"winPctge"] <- NA}
-  dataDiscretizada[i,"AgeSD"] <- (dataMiddleweight[i,"age"]-mean(dataMiddleweight[,"age"], na.rm = T))/sd(dataMiddleweight[,"age"], na.rm=T)
+  dataDiscretizada[i,"AgeDif"] <- (dataMiddleweight[i,"age"]-mean(dataMiddleweight[,"age"], na.rm = T))
 }
 
 
@@ -391,9 +391,9 @@ pcor.test(as.numeric(dataCorr[,"Winner"]), dataCorr[,"Reach_med"], c(dataCorr[,"
 pcor.test(as.numeric(dataCorrWin[,"Winner"]), dataCorrWin[,"winPctge"], dataCorrWin[,"Height_lo"])
 
 
-modelo <- train(Winner ~ Height_hi + Height_lo + winPctge  + 
+modelo <- train(Winner ~ Height_hi + Height_lo + winPctge   
                  + Height_lo:Reach_lo
-                 + AgeSD, dataDiscretizada, method = "glm", trControl = setControl, na.action=na.omit)
+                 + AgeDif, dataDiscretizada, method = "glm", trControl = setControl, na.action=na.omit)
 
 summary(modelo)
 # 15. Analizar y comentar sobre los resultados obtenidos en el punto 14.
